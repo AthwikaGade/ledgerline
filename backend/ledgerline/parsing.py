@@ -6,15 +6,21 @@ from datetime import date
 
 from dateutil import parser as dateparser
 
+# AP_POLICY 1: Indian digit grouping, a Rs./₹/INR prefix and a "/-" suffix. Nothing else is accepted: no text after
+# the amount, no other currency symbols, and none of float()'s extras (nan, inf, 1e5).
+_AMOUNT = re.compile(r"(?:₹|INR|Rs\.?)?\s*(-?\d[\d,]*(?:\.\d+)?)\s*(?:/-)?")
+
 
 def parse_amount(value) -> float | None:
-    """'₹ 1,23,456.00' -> 123456.0"""
+    """'₹ 1,23,456.00' -> 123456.0, 'Rs. 1,00,819/-' -> 100819.0. Raises ValueError for anything else."""
     if value is None or value == "":
         return None
     if isinstance(value, (int, float)):
         return float(value)
-    cleaned = str(value).replace("₹", "").replace("INR", "").replace(",", "").strip()
-    return float(cleaned)
+    match = _AMOUNT.fullmatch(str(value).strip())
+    if match is None:
+        raise ValueError(f"not an amount: {value!r}")
+    return float(match.group(1).replace(",", ""))
 
 
 _LEADING_NUMBER = re.compile(r"\d[\d,]*(?:\.\d+)?")

@@ -125,15 +125,13 @@ def _attempt(conn: sqlite3.Connection, ref: ReferenceData, raw_text: str, org_id
         return Attempt(responses=responses, error=f"{type(exc).__name__}: {exc}")
 
 
-# Validation failures that may be extraction errors, so a stronger model is asked to read the document again.
-ESCALATE_ON_REASONS = {"totals_mismatch", "gstin_invalid"}
-
-
 def _escalation_trigger(attempt: Attempt) -> str | None:
+    """Escalate only when the primary could not produce a usable extraction (provider failure, unusable reply,
+    missing critical field, unreadable value). A deterministic review reason is never escalated: a second reading may
+    not clear it, so escalating would add cost and latency without changing the decision."""
     if attempt.error is not None:
         return f"primary extraction failed ({attempt.error})"
-    hit = sorted(ESCALATE_ON_REASONS & set(attempt.reasons))
-    return f"primary extraction failed validation ({', '.join(hit)})" if hit else None
+    return None
 
 
 def process_document(

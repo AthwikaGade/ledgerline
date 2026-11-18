@@ -1,8 +1,8 @@
 """Part 4B: a cheap primary model, with escalation to a stronger model (or another provider) when the primary fails.
 
-Escalation happens when the primary call fails (provider error, outage, unusable reply), when its extraction misses a
-critical field, or when it fails a validation that may be an extraction error (totals_mismatch, gstin_invalid).
-Escalation never overrides deterministic review reasons: the reasons are the union over every successful read.
+Escalation happens only when the primary cannot produce a usable extraction: the call fails (provider error,
+outage), the reply is unusable, a critical field is missing or a value is unreadable. A deterministic review reason
+is never escalated, and escalation never overrides one (the reasons are the union over every successful read).
 """
 import json
 
@@ -82,21 +82,19 @@ def test_without_escalation_configured_a_failure_is_a_processing_error(conn, ref
     assert process(conn, ref)["review_reasons"] == ["processing_error"]
 
 
-def test_escalation_cannot_clear_a_deterministic_review_reason(conn, ref, models):
-    """The primary's reading fails the totals rule. The stronger model reads totals that add up. The document still
-    goes to review for totals_mismatch: a second reading is not allowed to make a policy failure disappear."""
-    models(Model("claude-haiku-5-5", [extraction(total="23999.00")]), Model("claude-opus-5-5", [extraction()]))
+@pytest.mark.parametrize("label, overrides, reason", [
+    ("totals do not add up", {"total": "23999.00"}, "totals_mismatch"),
+    ("GSTIN fails its checksum", {"supplier_gstin": "27AAKCS4821M1ZX"}, "gstin_invalid"),
+])
+def test_a_policy_failure_goes_to_review_without_escalating(conn, ref, models, label, overrides, reason):
+    """A deterministic review reason cannot be cleared by a second reading (escalation never overrides it), so
+    escalating would only add cost and latency: in the paid run, dev_008, dev_010 and disp_01 escalated this way
+    for ~Rs 1.90 and ~8 s each, and all three still went to review for the same reason."""
+    _, strong = models(Model("claude-haiku-5-5", [extraction(**overrides)]), Model("claude-opus-5-5", [extraction()]))
     invoice = process(conn, ref)
-    assert "totals_mismatch" in invoice["review_reasons"]
-    assert invoice["needs_review"] is True
-    assert invoice["total"] == 23458.0  # field values come from the stronger model's reading
-
-
-def test_reasons_found_by_either_reading_are_all_kept(conn, ref, models):
-    models(Model("claude-haiku-5-5", [extraction(supplier_gstin="27AAKCS4821M1ZX")]),
-           Model("claude-opus-5-5", [extraction(cgst="0.00", sgst="0.00", igst="3578.40")]))
-    reasons = process(conn, ref)["review_reasons"]
-    assert {"gstin_invalid", "tax_type_mismatch"} <= set(reasons)
+    assert reason in invoice["review_reasons"], label
+    assert strong.prompts == [], label
+    assert invoice["usage"]["llm_calls"] == 1
 
 
 def test_the_escalation_prompt_is_masked_too(conn, ref, models):

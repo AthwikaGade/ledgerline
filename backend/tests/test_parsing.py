@@ -1,6 +1,30 @@
 from datetime import date
 
+import pytest
+
 from ledgerline.parsing import parse_amount, parse_date
+
+
+@pytest.mark.parametrize("printed, expected", [
+    ("100819/-", 100819.0),            # dev_016 as Haiku copied it: AP_POLICY 1 lists the "/-" suffix
+    ("Rs. 1,00,819/-", 100819.0),
+    ("Rs 2,480.00", 2480.0),
+    ("Rs.2480", 2480.0),
+    ("INR 1,23,456.78", 123456.78),
+    ("₹ -0.40", -0.40),
+    ("-0.40", -0.40),
+])
+def test_amount_formats_listed_in_the_policy(printed, expected):
+    assert parse_amount(printed) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("printed", ["100819/- approx", "Rs 2,480.00 only", "2480 USD", "nan", "inf", "1e5",
+                                     "12 BOX", "Rs.", "1,450.00/box", "$50.00"])
+def test_anything_else_is_refused_not_guessed(printed):
+    """Money stays strict: text after an amount, other currencies' symbols and float() oddities are refused, so the
+    document escalates or becomes a processing_error instead of carrying an invented number."""
+    with pytest.raises(ValueError):
+        parse_amount(printed)
 
 
 def test_parse_amount_indian_grouping():

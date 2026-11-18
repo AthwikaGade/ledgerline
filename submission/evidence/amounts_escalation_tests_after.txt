@@ -1,0 +1,53 @@
+# Amount-format and escalation-trigger tests AFTER the change (working tree on 4b6a0d3), 2026-11-18T20:48Z. Paths replaced.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 37 items
+
+tests\test_parsing.py ..........................                         [ 70%]
+tests\test_escalation.py ...........                                     [100%]
+
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[100819/--100819.0]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[Rs. 1,00,819/--100819.0]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[Rs 2,480.00-2480.0]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[Rs.2480-2480.0]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[INR 1,23,456.78-123456.78]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[\u20b9 -0.40--0.4]
+PASSED tests/test_parsing.py::test_amount_formats_listed_in_the_policy[-0.40--0.4]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[100819/- approx]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[Rs 2,480.00 only]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[2480 USD]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[nan]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[inf]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[1e5]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[12 BOX]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[Rs.]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[1,450.00/box]
+PASSED tests/test_parsing.py::test_anything_else_is_refused_not_guessed[$50.00]
+PASSED tests/test_parsing.py::test_parse_amount_indian_grouping
+PASSED tests/test_parsing.py::test_parse_amount_rupee_symbol
+PASSED tests/test_parsing.py::test_parse_amount_passes_numbers_through
+PASSED tests/test_parsing.py::test_parse_amount_empty_is_none
+PASSED tests/test_parsing.py::test_parse_date_iso
+PASSED tests/test_parsing.py::test_parse_date_with_slashes
+PASSED tests/test_parsing.py::test_parse_date_us_vendor_month_first
+PASSED tests/test_parsing.py::test_parse_date_iso_is_never_day_swapped
+PASSED tests/test_parsing.py::test_parse_date_day_first_when_unambiguous
+PASSED tests/test_escalation.py::test_no_escalation_when_the_primary_extraction_passes
+PASSED tests/test_escalation.py::test_unusable_primary_reply_is_escalated
+PASSED tests/test_escalation.py::test_primary_missing_a_critical_field_is_escalated
+PASSED tests/test_escalation.py::test_provider_outage_falls_back_to_the_other_model
+PASSED tests/test_escalation.py::test_when_every_model_fails_it_is_a_processing_error
+PASSED tests/test_escalation.py::test_without_escalation_configured_a_failure_is_a_processing_error
+PASSED tests/test_escalation.py::test_a_policy_failure_goes_to_review_without_escalating[totals do not add up-overrides0-totals_mismatch]
+PASSED tests/test_escalation.py::test_a_policy_failure_goes_to_review_without_escalating[GSTIN fails its checksum-overrides1-gstin_invalid]
+PASSED tests/test_escalation.py::test_the_escalation_prompt_is_masked_too
+PASSED tests/test_escalation.py::test_each_call_is_costed_at_its_own_model_price
+PASSED tests/test_escalation.py::test_escalation_is_configured_by_environment
+============================= 37 passed in 0.61s ==============================
+# Full suite:
+329 passed in 9.07s
