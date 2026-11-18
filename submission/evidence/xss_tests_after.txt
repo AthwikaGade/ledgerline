@@ -1,0 +1,22 @@
+# Frontend XSS regression tests AFTER the fix (notes rendered as text), working tree on 64a7d51, 2026-11-18T23:51Z. Paths replaced.
+
+ RUN  v2.1.9 <repo>/frontend
+
+ ✓ src/NotesCallout.test.tsx > markup in the model's notes is shown as text, never rendered as HTML
+ ✓ src/NotesCallout.test.tsx > a script tag in the notes is shown as text
+ ✓ src/NotesCallout.test.tsx > ordinary notes still appear, line breaks kept
+ ✓ src/NotesCallout.test.tsx > no notes, nothing rendered
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  17:51:04
+   Duration  574ms (transform 65ms, setup 0ms, collect 103ms, tests 8ms, environment 0ms, prepare 155ms)
+
+
+$ npm run build
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.42 kB │ gzip:  0.28 kB
+dist/assets/index-q79C8CmN.css    2.84 kB │ gzip:  1.14 kB
+dist/assets/index-yhWzR-mg.js   148.05 kB │ gzip: 47.57 kB
+✓ built in 880ms

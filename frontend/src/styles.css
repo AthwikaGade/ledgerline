@@ -60,3 +60,8 @@ td small { display: block; color: var(--muted); }
 .actions button.secondary { background: transparent; color: var(--ink); }
 .hint, .empty { color: var(--muted); }
 .empty { padding: 1rem 1.25rem; }
+
+/* The model's notes are shown as plain text; keep their line breaks. */
+.notes-text {
+  white-space: pre-wrap;
+}

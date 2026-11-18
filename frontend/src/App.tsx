@@ -8,6 +8,7 @@ import {
   type Invoice,
   type InvoiceSummary,
 } from "./api";
+import { NotesCallout } from "./NotesCallout";
 
 function money(value: number | null | undefined, currency: string | null) {
   if (value === null || value === undefined) return "–";
@@ -158,12 +159,7 @@ export default function App() {
                   </ul>
                 </div>
               )}
-              {selected.notes && (
-                <div className="callout">
-                  <h3>Notes on the document</h3>
-                  <div dangerouslySetInnerHTML={{ __html: selected.notes }} />
-                </div>
-              )}
+              <NotesCallout notes={selected.notes} />
 
               <h3>Line items</h3>
               <table className="lines">
