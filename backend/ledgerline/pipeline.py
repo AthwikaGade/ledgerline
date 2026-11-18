@@ -10,9 +10,9 @@ from .bank import digits, find_bank_details, still_masked
 from .extraction import ExtractionError, extract
 from .llm.pricing import cost_usd
 from .models import Invoice, LineItem
-from .parsing import parse_amount, parse_date
+from .parsing import parse_amount, parse_date, parse_leading_number
 from .reference import ReferenceData
-from .validation import REASON_ORDER, find_vendor, run_checks, vendor_prints_month_first
+from .validation import REASON_ORDER, find_vendor, flagged_checks, run_checks, vendor_prints_month_first
 from .validation import required_approvals as policy_approvals
 
 # Without these the policy cannot be applied (the duplicate rule needs number and date, approvals and the totals
@@ -36,9 +36,9 @@ def normalize(data: dict, month_first: bool = False) -> Invoice:
     items = [
         LineItem(
             description=str(item.get("description", "")),
-            quantity=parse_amount(item.get("quantity")),
-            unit_price=parse_amount(item.get("unit_price")),
-            amount=parse_amount(item.get("amount")) or 0.0,
+            quantity=parse_leading_number(item.get("quantity")),  # '12 BOX' -> 12 (quantity only)
+            unit_price=parse_amount(item.get("unit_price")),      # money: strict
+            amount=parse_amount(item.get("amount")),              # money: strict, and None stays None (not 0)
         )
         for item in data.get("line_items") or []
     ]
@@ -112,10 +112,11 @@ def _attempt(conn: sqlite3.Connection, ref: ReferenceData, raw_text: str, org_id
         inv = normalize(data, month_first=vendor_prints_month_first(vendor))
         unverified = apply_local_bank_details(inv, raw_text, data.get("bank_account"))
         reasons = run_checks(conn, ref, inv, raw_text=raw_text, org_id=org_id)
-        if unverified and vendor:
-            reasons = sorted({*reasons, "bank_details_changed"}, key=REASON_ORDER.index)
+        flagged, flag_notes = flagged_checks(inv, raw_text)  # off by default; see flags.py
+        extra = {*flagged, *(["bank_details_changed"] if unverified and vendor else [])}
+        reasons = sorted({*reasons, *extra}, key=REASON_ORDER.index)
         # The model's own routing opinion, if it gave one, is kept for the reviewer but never decides anything.
-        warnings = [f"bank details not verified: {u}" for u in unverified]
+        warnings = [f"bank details not verified: {u}" for u in unverified] + flag_notes
         if "requires_review" in data or "review_reasons" in data:
             warnings.append(f"advisory only, not used for routing: the model suggested requires_review="
                             f"{data.get('requires_review')!r}, review_reasons={data.get('review_reasons')!r}")

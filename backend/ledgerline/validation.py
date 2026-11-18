@@ -12,7 +12,9 @@ import re
 import sqlite3
 from datetime import date
 from decimal import Decimal
+from email.utils import parsedate_to_datetime
 
+from .flags import flag_enabled
 from .models import Invoice
 from .reference import ReferenceData
 
@@ -26,7 +28,9 @@ PAISE = Decimal("0.01")
 
 # The order of AP_POLICY section 3, used to report reasons consistently.
 REASON_ORDER = ["credit_note", "duplicate", "gstin_invalid", "vendor_unknown", "vendor_new", "bank_details_changed",
-                "tax_type_mismatch", "totals_mismatch", "foreign_currency", "suspicious_content", "processing_error"]
+                "tax_type_mismatch", "totals_mismatch", "foreign_currency", "suspicious_content", "processing_error",
+                # Not in AP_POLICY v3.2: only ever raised when their flag is on (see flags.py).
+                "line_amount_mismatch", "future_dated"]
 
 # suspicious_content: "text addressed to automated systems or AI (for example, instructions to skip checks or
 # change an approval decision), or embedded HTML or script markup". Deterministic and deliberately specific.
@@ -172,8 +176,8 @@ def check_tax_type(inv: Invoice, buyer_state_code: str = DEFAULT_BUYER_STATE_COD
 
 def check_totals(inv: Invoice) -> list[str]:
     """|sum of line amounts + CGST + SGST + IGST + round-off - total| > Rs 1.00. Exactly Rs 1.00 is fine."""
-    if inv.total is None:
-        return ["totals_mismatch"]
+    if inv.total is None or any(item.amount is None for item in inv.line_items):
+        return ["totals_mismatch"]  # a missing amount cannot be verified; it is never counted as zero
     zero = Decimal(0)
     computed = sum((money(item.amount) or zero for item in inv.line_items), zero)
     computed += sum((money(v) or zero for v in (inv.cgst, inv.sgst, inv.igst, inv.round_off)), zero)
@@ -232,6 +236,81 @@ def required_approvals(inv: Invoice) -> int:
     if inv.total is not None and money(inv.total) >= HIGH_VALUE_THRESHOLD:
         return 2
     return 1
+
+
+# --- Flagged checks: departures from the written policy, off by default (Part 2 rulings) --------------------------
+
+def today() -> date:
+    """The processing date. A function so tests can fix it."""
+    return date.today()
+
+
+_HEADER_LINE = re.compile(r"^[A-Za-z][A-Za-z0-9-]*:")
+
+
+def email_date_header(raw_text: str) -> date | None:
+    """The Date: header of an email document, from its header block only (the lines before the first blank line,
+    which must look like RFC 5322 headers and include From:). It is SENDER-SUPPLIED: a claim about when the email was
+    sent, not a verified receipt timestamp. Ledgerline does not record one for batch documents."""
+    lines = (raw_text or "").lstrip("﻿").split("\n")
+    block = []
+    for line in lines:
+        if not line.strip():
+            break
+        if not _HEADER_LINE.match(line) and not line[:1].isspace():
+            return None
+        block.append(line)
+    if not any(line.lower().startswith("from:") for line in block):
+        return None
+    for line in block:
+        if line.lower().startswith("date:"):
+            try:
+                return parsedate_to_datetime(line[5:].strip()).date()
+            except (TypeError, ValueError):
+                return None
+    return None
+
+
+def check_line_arithmetic(inv: Invoice) -> tuple[list[str], list[str]]:
+    """|quantity x unit price - line amount| > Rs 1.00 on any line where all three are printed."""
+    notes = []
+    for number, item in enumerate(inv.line_items, start=1):
+        if item.quantity is None or item.unit_price is None or item.amount is None:
+            continue
+        quantity, rate, amount = Decimal(str(item.quantity)), money(item.unit_price), money(item.amount)
+        expected = (quantity * rate).quantize(PAISE)
+        if abs(expected - amount) > TOTALS_TOLERANCE:
+            notes.append(f"line {number}: {quantity.normalize():f} x {rate} = {expected}, printed {amount} "
+                         f"(difference {amount - expected})")
+    return (["line_amount_mismatch"], notes) if notes else ([], [])
+
+
+def check_future_dated(inv: Invoice, raw_text: str) -> tuple[list[str], list[str]]:
+    """The printed invoice date (still the document date, AP_POLICY 1) is later than the email's Date header, or
+    later than the day Ledgerline processes it. The email date is only a consistency signal; it changes no field."""
+    if inv.invoice_date is None:
+        return [], []
+    notes = []
+    sent = email_date_header(raw_text)
+    if sent is not None and inv.invoice_date > sent:
+        notes.append(f"invoice dated {inv.invoice_date} is later than the email's Date header {sent} "
+                     f"(sender-supplied, not a verified receipt time)")
+    processed = today()
+    if inv.invoice_date > processed:
+        notes.append(f"invoice dated {inv.invoice_date} is later than the day it was processed ({processed})")
+    return (["future_dated"], notes) if notes else ([], [])
+
+
+def flagged_checks(inv: Invoice, raw_text: str) -> tuple[list[str], list[str]]:
+    """Reasons and reviewer notes from the checks whose flags are on."""
+    reasons, notes = [], []
+    if flag_enabled("LINE_ARITHMETIC"):
+        r, n = check_line_arithmetic(inv)
+        reasons, notes = reasons + r, notes + n
+    if flag_enabled("FUTURE_DATED"):
+        r, n = check_future_dated(inv, raw_text)
+        reasons, notes = reasons + r, notes + n
+    return reasons, notes
 
 
 def run_checks(conn: sqlite3.Connection, ref: ReferenceData, inv: Invoice, raw_text: str = "",

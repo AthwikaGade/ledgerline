@@ -1,0 +1,28 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Shakti Castings Pvt. Ltd.",
+  "supplier_gstin": "27AAPCS5512H1Z4",
+  "invoice_number": "SCPL/26-27/011",
+  "invoice_date": "25/06/2026",
+  "currency": "INR",
+  "subtotal": "70500.00",
+  "cgst": "6345.00",
+  "sgst": "6345.00",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "83190.00",
+  "bank_account": "[N1:XXXXXXXXX9983]",
+  "ifsc": "TALB0001408",
+  "po_number": "PO-2026-0139",
+  "notes": "The invoice details are in the email body, not an attached invoice document. The printed invoice date, 25/06/2026, is about two months after the email was sent (28 Apr 2026). The date may be a typo or the invoice may be post-dated, so please confirm it with the supplier. I copied it as printed. No round-off is shown, so round_off is 0.00. The amounts are consistent: 30 x 2,350.00 = 70,500.00, CGST and SGST at 9% are 6,345.00 each, and the total is 83,190.00. Please confirm the bank details through an independent channel before payment.",
+  "line_items": [
+    {
+      "description": "Grey Iron Casting - Pump Housing PH-40",
+      "quantity": "30",
+      "unit_price": "2350.00",
+      "amount": "70500.00"
+    }
+  ]
+}
+```

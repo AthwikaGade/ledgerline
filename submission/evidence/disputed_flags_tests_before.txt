@@ -1,0 +1,91 @@
+# Part 2 flag tests (disp_05, disp_06) + quantity fix, FINAL version, against committed code 2b24b53 (no changes yet), 2026-11-18T20:31Z. Paths replaced.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 30 items
+
+tests\test_disputed_flags.py FFFFFFF.F.F..FFF..F..F.F.....F              [100%]
+
+================================== FAILURES ===================================
+E   AssertionError: assert ['processing_error'] == []
+      
+      Left contains one more item: 'processing_error'
+      Use -v to get more diff
+<repo>\backend\tests\test_disputed_flags.py:72: AssertionError: assert ['processing_error'] == []
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+<repo>\backend\tests\test_disputed_flags.py:79: ImportError: cannot import name 'parse_leading_number' from 'ledgerline.parsing' (<repo>\backend\ledgerline\parsing.py)
+E   assert 0.0 is None
+<repo>\backend\tests\test_disputed_flags.py:97: assert 0.0 is None
+E   AssertionError: assert [] == ['line_amount_mismatch']
+      
+      Right contains one more item: 'line_amount_mismatch'
+      Use -v to get more diff
+<repo>\backend\tests\test_disputed_flags.py:108: AssertionError: assert [] == ['line_amount_mismatch']
+E   AssertionError: Rs 1.01 off
+    assert ('line_amount_mismatch' in []) is True
+<repo>\backend\tests\test_disputed_flags.py:127: AssertionError: Rs 1.01 off
+E   AssertionError: fractional quantity
+    assert 'processing_error' not in ['processing_error']
+<repo>\backend\tests\test_disputed_flags.py:126: AssertionError: fractional quantity
+E   AssertionError: unit in quantity
+    assert 'processing_error' not in ['processing_error']
+<repo>\backend\tests\test_disputed_flags.py:126: AssertionError: unit in quantity
+E   AssertionError: assert [] == ['future_dated']
+      
+      Right contains one more item: 'future_dated'
+      Use -v to get more diff
+<repo>\backend\tests\test_disputed_flags.py:138: AssertionError: assert [] == ['future_dated']
+E   AssertionError: assert ('future_dated' in []) is True
+<repo>\backend\tests\test_disputed_flags.py:152: AssertionError: assert ('future_dated' in []) is True
+E   AssertionError: assert ('future_dated' in []) is True
+<repo>\backend\tests\test_disputed_flags.py:161: AssertionError: assert ('future_dated' in []) is True
+E   AssertionError: assert ['suspicious_...essing_error'] == ['line_amount...future_dated']
+      
+      At index 0 diff: 'suspicious_content' != 'line_amount_mismatch'
+      Use -v to get more diff
+<repo>\backend\tests\test_disputed_flags.py:185: AssertionError: assert ['suspicious_...essing_error'] == ['line_amount...future_dated']
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_disputed_flags.py::test_unit_price_stays_strict_and_is_never_guessed
+PASSED tests/test_disputed_flags.py::test_disp_05_is_ready_with_the_flag_off
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[exact-item0-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[within Rs 1.00-item1-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[no unit price printed: cannot check-item5-False]
+PASSED tests/test_disputed_flags.py::test_disp_06_is_ready_with_the_flag_off
+PASSED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-27-False]
+PASSED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-28-False]
+PASSED tests/test_disputed_flags.py::test_a_scanned_invoice_dated_after_the_day_it_is_processed[2026-11-18-False]
+PASSED tests/test_disputed_flags.py::test_an_email_date_header_is_only_read_from_the_header_block
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[0]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[true]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[yes]
+FAILED tests/test_disputed_flags.py::test_quantities_printed_with_a_unit_are_read_not_rejected
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[12 BOX-12.0]
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[340 nos-340.0]
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[2,000 kg-2000.0]
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[2.5 MT-2.5]
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[as agreed-None]
+FAILED tests/test_disputed_flags.py::test_quantity_is_read_leniently[None-None]
+FAILED tests/test_disputed_flags.py::test_a_missing_line_amount_never_becomes_zero
+FAILED tests/test_disputed_flags.py::test_disp_05_goes_to_review_with_the_flag_on
+FAILED tests/test_disputed_flags.py::test_line_arithmetic_rule[Rs 1.01 off-item2-True]
+FAILED tests/test_disputed_flags.py::test_line_arithmetic_rule[fractional quantity-item3-False]
+FAILED tests/test_disputed_flags.py::test_line_arithmetic_rule[unit in quantity-item4-False]
+FAILED tests/test_disputed_flags.py::test_disp_06_goes_to_review_with_the_flag_on
+FAILED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-29-True]
+FAILED tests/test_disputed_flags.py::test_a_scanned_invoice_dated_after_the_day_it_is_processed[2026-11-19-True]
+FAILED tests/test_disputed_flags.py::test_new_codes_are_reported_after_the_policy_codes
+======================== 16 failed, 14 passed in 1.09s ========================

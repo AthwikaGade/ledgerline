@@ -1,0 +1,46 @@
+# Part 2 flag tests + quantity fix AFTER the change (working tree on 2b24b53), 2026-11-18T20:32Z. Paths replaced.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 30 items
+
+tests\test_disputed_flags.py ..............................              [100%]
+
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_disputed_flags.py::test_quantities_printed_with_a_unit_are_read_not_rejected
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[12 BOX-12.0]
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[340 nos-340.0]
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[2,000 kg-2000.0]
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[2.5 MT-2.5]
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[as agreed-None]
+PASSED tests/test_disputed_flags.py::test_quantity_is_read_leniently[None-None]
+PASSED tests/test_disputed_flags.py::test_unit_price_stays_strict_and_is_never_guessed
+PASSED tests/test_disputed_flags.py::test_a_missing_line_amount_never_becomes_zero
+PASSED tests/test_disputed_flags.py::test_disp_05_is_ready_with_the_flag_off
+PASSED tests/test_disputed_flags.py::test_disp_05_goes_to_review_with_the_flag_on
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[exact-item0-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[within Rs 1.00-item1-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[Rs 1.01 off-item2-True]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[fractional quantity-item3-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[unit in quantity-item4-False]
+PASSED tests/test_disputed_flags.py::test_line_arithmetic_rule[no unit price printed: cannot check-item5-False]
+PASSED tests/test_disputed_flags.py::test_disp_06_is_ready_with_the_flag_off
+PASSED tests/test_disputed_flags.py::test_disp_06_goes_to_review_with_the_flag_on
+PASSED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-27-False]
+PASSED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-28-False]
+PASSED tests/test_disputed_flags.py::test_invoice_dated_after_the_email_that_delivered_it[2026-04-29-True]
+PASSED tests/test_disputed_flags.py::test_a_scanned_invoice_dated_after_the_day_it_is_processed[2026-11-18-False]
+PASSED tests/test_disputed_flags.py::test_a_scanned_invoice_dated_after_the_day_it_is_processed[2026-11-19-True]
+PASSED tests/test_disputed_flags.py::test_an_email_date_header_is_only_read_from_the_header_block
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[0]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[true]
+PASSED tests/test_disputed_flags.py::test_flags_are_on_only_when_set_to_1[yes]
+PASSED tests/test_disputed_flags.py::test_new_codes_are_reported_after_the_policy_codes
+============================= 30 passed in 0.92s ==============================
+
+# Full suite:
+312 passed in 8.22s

@@ -1,0 +1,34 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "SITARA INDUSTRIAL SUPPLIES PVT. LTD.",
+  "supplier_gstin": "27AAKCS4821M1ZW",
+  "invoice_number": "SIS/26-27/0042",
+  "invoice_date": "25/04/2026",
+  "currency": "INR",
+  "subtotal": "19,880.00",
+  "cgst": "1,789.20",
+  "sgst": "1,789.20",
+  "igst": "0.00",
+  "round_off": "-0.40",
+  "total": "23,458.00",
+  "bank_account": "[N1:XXXXXXXXXX5678]",
+  "ifsc": "ZEPH0001234",
+  "po_number": "PO-2026-0117",
+  "notes": "Supplier name taken from the header in capitals. The signature line spells it 'Sitara Industrial Supplies Pvt. Ltd.' Supplier and buyer are both in Maharashtra (state code 27), so CGST and SGST at 9% each apply and IGST is not charged. The amounts reconcile: the line items sum to 19,880.00, the two taxes add 3,578.40 to give 23,458.40, and the round-off of -0.40 gives 23,458.00. This matches the amount in words.",
+  "line_items": [
+    {
+      "description": "SS Hex Bolt M10x40 (Box/100)",
+      "quantity": "12 BOX",
+      "unit_price": "1,450.00",
+      "amount": "17,400.00"
+    },
+    {
+      "description": "Spring Washer M10 (Pkt/500)",
+      "quantity": "4 PKT",
+      "unit_price": "620.00",
+      "amount": "2,480.00"
+    }
+  ]
+}
+```

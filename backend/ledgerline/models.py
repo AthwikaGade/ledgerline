@@ -10,7 +10,7 @@ class LineItem:
     description: str
     quantity: float | None
     unit_price: float | None
-    amount: float
+    amount: float | None  # None when the line shows no amount: never silently counted as zero
 
 
 @dataclass

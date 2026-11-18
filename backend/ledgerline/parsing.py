@@ -17,6 +17,22 @@ def parse_amount(value) -> float | None:
     return float(cleaned)
 
 
+_LEADING_NUMBER = re.compile(r"\d[\d,]*(?:\.\d+)?")
+
+
+def parse_leading_number(value) -> float | None:
+    """Lenient, for QUANTITIES ONLY: '12 BOX' -> 12.0, '2,000 kg' -> 2000.0, 'as agreed' -> None.
+
+    Quantity is used by no AP policy rule except the flagged line-arithmetic check, which skips lines without one.
+    Money is never parsed this way: amounts and prices go through parse_amount, which refuses what it cannot read."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    match = _LEADING_NUMBER.search(str(value))
+    return float(match.group(0).replace(",", "")) if match else None
+
+
 _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
