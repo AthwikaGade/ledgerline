@@ -9,3 +9,5 @@ __pycache__/
 frontend/node_modules/
 frontend/dist/
 .DS_Store
+# Raw model responses recorded by backend/eval/baseline_starter.py: kept locally, never committed.
+submission/baseline/llm_cache/
