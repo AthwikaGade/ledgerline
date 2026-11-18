@@ -1,0 +1,45 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Konkan Tooling Pvt Ltd",
+  "supplier_gstin": "27AAACK9034R1ZX",
+  "invoice_number": "KT/2026/118",
+  "invoice_date": "2026-04-08",
+  "currency": "INR",
+  "subtotal": "61250.00",
+  "cgst": "5512.50",
+  "sgst": "5512.50",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "72275.00",
+  "bank_account": "XXXXXXXXXX5432",
+  "ifsc": "ZEPH0000208",
+  "po_number": "PO-2026-0102",
+  "notes": "Invoice details were given in the body of an email, not an invoice copy. The document date is the invoice date 08/04/2026, not the email date (27 Apr 2026), so it falls in FY 2026-27. Normalized invoice number: KT2026118. The duplicate check is NOT complete. The email says it is resending this invoice for non-payment, and reference/paid_invoices.csv and the rest of the batch were not available to me. Before approval, someone must check for an existing record with supplier key 27AAACK9034R1ZX, invoice number KT2026118 and FY 2026-27. If one exists, the 'duplicate' reason applies and the invoice cannot be approved. Required approvals: 1 (total is below ₹5,00,000.00). Policy 4.3 means a human approval is still needed.",
+  "line_items": [
+    {"description": "Boring Bar S20R-SCLCR09", "quantity": "2", "unit_price": "18500.00", "amount": "37000.00"},
+    {"description": "Carbide Insert CNMG 120408 (Pack of 10)", "quantity": "5", "unit_price": "4850.00", "amount": "24250.00"}
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**Checks performed**
+
+| Rule | Result |
+|---|---|
+| `credit_note` | No. This is a demand for payment. |
+| `gstin_invalid` | Passed. The format is valid, and the checksum sum is 183, so 183 mod 36 = 3 and (36 − 3) mod 36 = 33, which is `X`. That matches the printed check character. |
+| `vendor_unknown` | Passed. The GSTIN matches V0008, Konkan Tooling Pvt. Ltd. |
+| `vendor_new` | Passed. The vendor was onboarded on 2020-06-01, more than 90 days before 2026-04-08. |
+| `bank_details_changed` | Passed. The account XXXXXXXXXX5432 and IFSC ZEPH0000208 match the vendor master. |
+| `tax_type_mismatch` | Passed. The supplier's state code (27) is the same as Meridian's (27), and only CGST and SGST are charged. |
+| `totals_mismatch` | Passed. 37,000.00 + 24,250.00 + 5,512.50 + 5,512.50 = 72,275.00, which equals the stated total exactly. |
+| `foreign_currency` | Passed. The currency is INR. |
+| `suspicious_content` | Passed. "Please process urgently" is an ordinary request to the AP team. It contains no instructions to automated systems and no markup. |
+| `duplicate` | **Not verified.** See below. |
+
+**Important caveat:** This is marked "no review" only because none of the rules I could check were triggered. The vendor says it is resending this invoice, so it may already be recorded, either as paid or as pending. Treat this as provisional until the duplicate check against `paid_invoices.csv` and the current batch is done.
+
+**Formatting notes:** You asked me to copy amounts and dates exactly as printed, but the AP policy (§1) says to store ISO dates and two-decimal exact amounts. The policy overrides other instructions, so I followed it, as your examples do. For example, "08/04/2026" is stored as `2026-04-08` (day first, Indian vendor), and "₹72,275.00" as `72275.00`.

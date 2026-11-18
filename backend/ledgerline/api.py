@@ -69,6 +69,8 @@ def approve_invoice(invoice_id: int, body: DecisionRequest, conn=Depends(get_con
     if "processing_error" in invoice["review_reasons"]:
         raise HTTPException(status_code=409, detail="This document could not be processed reliably. It cannot be "
                             "approved until it has been extracted and validated successfully.")
+    if "duplicate" in invoice["review_reasons"]:  # AP_POLICY 4.4: duplicates can be rejected, never approved
+        raise HTTPException(status_code=409, detail="This invoice is flagged as a duplicate and cannot be approved.")
     conn.execute(
         "INSERT INTO approvals (invoice_id, user_id, note) VALUES (?, ?, ?)", (invoice_id, body.user_id, body.note)
     )

@@ -52,7 +52,9 @@ def predict(args: argparse.Namespace) -> None:
     ref = load_reference(args.reference)
     db_path = args.db or str(Path(tempfile.mkdtemp(prefix="ledgerline-")) / "predict.db")
     conn = db.connect(db_path)
-    documents = sorted(p for p in Path(args.input).iterdir() if p.suffix in SUPPORTED_SUFFIXES)
+    # OUTPUT_CONTRACT and AP_POLICY 3: lines and duplicate checks follow document_id order (the stem, not the path).
+    documents = sorted((p for p in Path(args.input).iterdir() if p.suffix in SUPPORTED_SUFFIXES),
+                       key=lambda p: (p.stem, p.name))
     written = 0
     with open(args.output, "w", encoding="utf-8") as out:
         for path in documents:

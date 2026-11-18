@@ -24,7 +24,19 @@ def test_parse_date_iso():
 
 
 def test_parse_date_with_slashes():
-    assert parse_date("03/04/2026") == date(2026, 3, 4)
+    # Corrected: the starter expected 4 March, which contradicts AP_POLICY 1 ("Indian vendors print dates day
+    # first"). Where tests and the policy disagree, the policy wins. 03/04/2026 from an Indian vendor is 3 April.
+    assert parse_date("03/04/2026") == date(2026, 4, 3)
+
+
+def test_parse_date_us_vendor_month_first():
+    # AP_POLICY 1: vendors whose country in the vendor master is US print MM/DD/YYYY.
+    assert parse_date("03/04/2026", month_first=True) == date(2026, 3, 4)
+
+
+def test_parse_date_iso_is_never_day_swapped():
+    assert parse_date("2026-04-05") == date(2026, 4, 5)
+    assert parse_date("2026-04-05", month_first=True) == date(2026, 4, 5)
 
 
 def test_parse_date_day_first_when_unambiguous():

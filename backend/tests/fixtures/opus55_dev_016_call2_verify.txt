@@ -1,0 +1,56 @@
+Every extracted value matches the document. One change: I set `requires_review` to true, because the duplicate check could not be run.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Malwa Steel Traders",
+  "supplier_gstin": "23AAHFM7702K1Z9",
+  "invoice_number": "0007",
+  "invoice_date": "2026-04-14",
+  "currency": "INR",
+  "subtotal": "85440.00",
+  "cgst": "0.00",
+  "sgst": "0.00",
+  "igst": "15379.20",
+  "round_off": "-0.20",
+  "total": "100819.00",
+  "bank_account": "XXXXXXXXXX1177",
+  "ifsc": "ZEPH0002303",
+  "po_number": "PO-2026-0110",
+  "notes": "Supplier matched to V0010 (Malwa Steel Traders) by GSTIN. GSTIN checksum is valid. The vendor was onboarded on 2021-07-07, so it is not new. Bank account and IFSC match the vendor master. The supplier is in state 23 and the buyer in state 27, and only IGST is charged, so the tax type is correct. IGST is 18% of 85440.00. Lines + IGST + round-off = 100819.00, which equals the stated total. No credit-note markers and no suspicious content. The duplicate check could not be run because reference/paid_invoices.csv and any earlier batch documents were not provided. Before approving, confirm that no invoice with normalized number 0007 from GSTIN 23AAHFM7702K1Z9 in FY 2026-27 already exists, and record that confirmation in the approval note.",
+  "line_items": [
+    {
+      "description": "MS Round Bar EN8 Dia 40mm",
+      "quantity": "1200",
+      "unit_price": "71.20",
+      "amount": "85440.00"
+    }
+  ],
+  "requires_review": true,
+  "review_reasons": ["processing_error"]
+}
+```
+
+**Verification summary**
+
+- **Fields:** All extracted values match the document.
+  - Date 14-04-2026 is day first (Indian vendor), so it is 2026-04-14.
+  - "Rs. 1,00,819/-" is 100819.00.
+  - Leading zeros in invoice number 0007 are kept.
+- **GSTIN 23AAHFM7702K1Z9:** The weighted sum is 171, and 171 mod 36 = 27. So the check character is position (36 − 27) mod 36 = 9, which is "9". It matches.
+- **Other rules:** The invoice passes `vendor_unknown`, `vendor_new`, `bank_details_changed`, `tax_type_mismatch`, `totals_mismatch`, `foreign_currency`, `credit_note` and `suspicious_content`.
+
+**Why I changed `requires_review`**
+
+The original extraction said no review was needed, even though its own note said the duplicate check was never run. That check is mandatory, so "no reasons" was an unverified claim. I flagged it as `processing_error` so the invoice cannot pass without a human recording that the duplicate check was done.
+
+- If you run the check against `paid_invoices.csv` and find no match, you can clear the flag.
+- If you do find a match, replace it with `duplicate`. A duplicate-flagged invoice cannot be approved, only rejected.
+
+**Approvals**
+
+The total is under ₹5,00,000 and the invoice is in INR, so it needs one human approval. Nothing is approved automatically.
+
+**Data handling**
+
+This record contains the full bank account number. If it is sent to an external LLM provider, mask it to `**********1177` first (policy §5.1).

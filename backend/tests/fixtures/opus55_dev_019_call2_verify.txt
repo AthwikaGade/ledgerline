@@ -1,0 +1,52 @@
+I checked every field and found **no errors**. The only change is to `notes`, which now records what was verified.
+
+**What I checked**
+- **Document type:** It is a demand for payment, not a credit note, so `invoice` is correct.
+- **Invoice date:** The email gives 08/04/2026. Indian vendors print the day first, so this is 2026-04-08. The email was sent on 27 Apr 2026, but policy says the document date is the date on the invoice. That puts it in FY 2026-27.
+- **Invoice number:** KT/2026/118 normalizes to KT2026118.
+- **GSTIN:** 27AAACK9034R1ZX has a valid format and passes the Appendix A checksum.
+- **Vendor:** The GSTIN matches V0008 (Konkan Tooling Pvt. Ltd.), onboarded 2020-06-01. That is well over 90 days before the invoice, so `vendor_new` does not apply.
+- **Bank details:** Account XXXXXXXXXX5432 and IFSC ZEPH0000208 match the vendor master. No change in bank details.
+- **Tax type:** The supplier's state code is 27, the same as Meridian's, and the invoice charges CGST and SGST with no IGST. This is correct.
+- **Totals:** The lines are 37,000.00 + 24,250.00 = 61,250.00. Adding CGST 5,512.50 and SGST 5,512.50 gives 72,275.00, which matches the stated total exactly.
+- **Currency and content:** The invoice is in INR. There is no text aimed at automated systems and no HTML or script.
+- **Approvals:** The total is below ₹5,00,000.00, so 1 approval is required.
+
+**Still open: the duplicate check.** The email says this invoice is being resent. I couldn't check `paid_invoices.csv` or the rest of the batch, so I can't confirm whether the `duplicate` reason applies. `requires_review: false` is correct only for the checks I could complete. Do not treat it as final until the duplicate lookup is done.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Konkan Tooling Pvt Ltd",
+  "supplier_gstin": "27AAACK9034R1ZX",
+  "invoice_number": "KT/2026/118",
+  "invoice_date": "2026-04-08",
+  "currency": "INR",
+  "subtotal": "61250.00",
+  "cgst": "5512.50",
+  "sgst": "5512.50",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "72275.00",
+  "bank_account": "XXXXXXXXXX5432",
+  "ifsc": "ZEPH0000208",
+  "po_number": "PO-2026-0102",
+  "notes": "Invoice details were given in the body of an email, not an invoice copy. The document date is the invoice date 08/04/2026 (DD/MM), not the email date (27 Apr 2026), so it falls in FY 2026-27. Normalized invoice number: KT2026118. Checks completed: GSTIN format and checksum valid; matched vendor V0008 Konkan Tooling Pvt. Ltd. by GSTIN (onboarded 2020-06-01, not new); bank account and IFSC match vendor master; intra-state supply (state 27) with CGST+SGST and no IGST, which is correct; line amounts + taxes = 72275.00, matching the stated total; INR; no suspicious content. The duplicate check is NOT complete. The email says it is resending this invoice for non-payment, and reference/paid_invoices.csv and the rest of the batch were not available. Before approval, someone must check for an existing record with supplier key 27AAACK9034R1ZX, invoice number KT2026118 and FY 2026-27. If one exists, the 'duplicate' reason applies and the invoice cannot be approved. requires_review=false reflects only the completed checks. Required approvals: 1 (total is below \u20b95,00,000.00). Policy 4.3 means a human approval is still needed.",
+  "line_items": [
+    {
+      "description": "Boring Bar S20R-SCLCR09",
+      "quantity": "2",
+      "unit_price": "18500.00",
+      "amount": "37000.00"
+    },
+    {
+      "description": "Carbide Insert CNMG 120408 (Pack of 10)",
+      "quantity": "5",
+      "unit_price": "4850.00",
+      "amount": "24250.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```

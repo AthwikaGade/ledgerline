@@ -1,0 +1,55 @@
+I checked every field against the document, the vendor master and the AP policy, and **found no errors**. The JSON below keeps the same keys and values. I only tidied the `notes` text, which repeated the normalized invoice number, and added the approval routing.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Sitara Industrial Supplies Pvt. Ltd.",
+  "supplier_gstin": "27AAKCS4821M1ZW",
+  "invoice_number": "SIS / 26-27 / 0018",
+  "invoice_date": "2026-04-02",
+  "currency": "INR",
+  "subtotal": "29000.00",
+  "cgst": "2610.00",
+  "sgst": "2610.00",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "34220.00",
+  "bank_account": "XXXXXXXXXX5678",
+  "ifsc": "ZEPH0001234",
+  "po_number": "PO-2026-0098",
+  "notes": "Normalized invoice number: SIS26270018. FY: 2026-27. Required approvals: 1 (no automatic approval under policy v3.2). Duplicate check not performed: paid_invoices.csv and earlier batch documents were not provided. Before approving, check SIS26270018 for supplier 27AAKCS4821M1ZW in FY 2026-27.",
+  "line_items": [
+    {
+      "description": "SS Hex Bolt M10x40 (Box/100)",
+      "quantity": "20",
+      "unit_price": "1450.00",
+      "amount": "29000.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**Checks performed**
+
+| Check | Result |
+|---|---|
+| Document type | "TAX INVOICE" with no credit-note indicators, so the type is `invoice`. |
+| Invoice date | The document shows 02/04/2026. The vendor is Indian, so the date is day-first: 2026-04-02, in FY 2026-27. |
+| Normalized number | `SIS / 26-27 / 0018` normalizes to `SIS26270018`. |
+| GSTIN checksum | The format is valid. The weighted sum is 184, 184 mod 36 = 4, and (36 − 4) mod 36 = 32, which is `W`. This matches the GSTIN, so it is valid. |
+| Vendor match | The GSTIN matches V0030, Sitara Industrial Supplies Pvt. Ltd. |
+| Vendor age | The vendor was onboarded on 2023-02-10, more than 90 days before the invoice date, so `vendor_new` does not apply. |
+| Bank details | The account XXXXXXXXXX5678 and IFSC ZEPH0001234 match the vendor master, so `bank_details_changed` does not apply. |
+| Tax type | The supplier's state code is 27, the same as the buyer's. The invoice charges CGST and SGST with no IGST, so `tax_type_mismatch` does not apply. |
+| Tax amounts | 9% of 29,000.00 is 2,610.00 for each of CGST and SGST. |
+| Totals | 29,000.00 + 2,610.00 + 2,610.00 + 0.00 = 34,220.00, which matches the stated total and the amount in words. The difference is ₹0.00. |
+| Line item | 20 × 1,450.00 = 29,000.00, and the HSN code is 7318. |
+| Currency | INR, so the document is domestic. |
+| Suspicious content | There is no text addressed to automated systems and no markup. The stray `~` in the buyer block is a formatting artifact. |
+| Approvals | The total is below ₹5,00,000 and the currency is INR, so one human approval is required. |
+
+**Open item:** No review reasons apply based on the data available. However, the duplicate check is still outstanding because `paid_invoices.csv` and the earlier batch documents were not provided. The approver should confirm SIS26270018 has not already been paid before approving.
+
+**Data handling:** The full bank account number is kept here because it is needed to compare against the vendor master. If this record is sent to an external LLM provider, mask the account number to `XXXXXXXXXX5678` (policy §5.1).

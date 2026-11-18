@@ -1,0 +1,48 @@
+I checked this invoice against the policy and it passes every rule I could test. The one exception is the duplicate rule: I couldn't run it because `reference/paid_invoices.csv` and any earlier documents in this batch weren't provided.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Sitara Industrial Supplies Pvt. Ltd.",
+  "supplier_gstin": "27AAKCS4821M1ZW",
+  "invoice_number": "SIS / 26-27 / 0018",
+  "invoice_date": "2026-04-02",
+  "currency": "INR",
+  "subtotal": "29000.00",
+  "cgst": "2610.00",
+  "sgst": "2610.00",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "34220.00",
+  "bank_account": "XXXXXXXXXX5678",
+  "ifsc": "ZEPH0001234",
+  "po_number": "PO-2026-0098",
+  "notes": "Duplicate check not performed: paid_invoices.csv and earlier batch documents were not provided. Check normalized number SIS26270018 for this supplier in FY 2026-27 before approving. Normalized invoice number: SIS26270018. FY: 2026-27. Required approvals: 1.",
+  "line_items": [
+    {
+      "description": "SS Hex Bolt M10x40 (Box/100)",
+      "quantity": "20",
+      "unit_price": "1450.00",
+      "amount": "29000.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**Checks:**
+- **GSTIN valid:** 27AAKCS4821M1ZW has the correct format, and its checksum works out to `W`, which matches the printed character.
+- **Known vendor, not new:** The GSTIN matches V0030, onboarded 2023-02-10. That is well over 90 days before the invoice date.
+- **Bank details match:** The account number and IFSC are the same as those on file for V0030.
+- **Tax type correct:** The supplier is in state 27 and so is Meridian. CGST and SGST are charged and IGST is not, which is right for a same-state sale.
+- **Totals correct:** 29,000.00 + 2,610.00 + 2,610.00 + 0.00 = 34,220.00, exactly the stated total.
+- **Domestic currency:** The invoice is in INR, so it is not foreign.
+- **No suspicious content:** The stray `~` is a formatting artefact, not an instruction or markup.
+- **Duplicate: not checked.** This needs to be run before approval.
+
+**Where I didn't follow your instructions:**
+- **Dates and amounts:** You asked me to copy these exactly as printed. The AP policy (§1), which governs here, requires ISO dates and two-place decimals, so I stored 02/04/2026 as `2026-04-02` and wrote amounts without commas. The invoice number is kept as printed, and its normalized form is in `notes`.
+- **Review field:** I used `requires_review` as you asked. Your earlier examples used `needs_review`, so please confirm which key your pipeline expects.
+
+**Approvals:** The invoice needs 1 human approval because it is under ₹5,00,000. Policy v3.2 has no automatic approval.

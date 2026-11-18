@@ -1,6 +1,7 @@
 """Turn the strings the model copies off the page into Python values."""
 from __future__ import annotations
 
+import re
 from datetime import date
 
 from dateutil import parser as dateparser
@@ -16,8 +17,15 @@ def parse_amount(value) -> float | None:
     return float(cleaned)
 
 
-def parse_date(value) -> date | None:
-    """Accept whatever date format the vendor printed."""
+_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def parse_date(value, month_first: bool = False) -> date | None:
+    """AP_POLICY 1: Indian vendors print the day first (DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY); vendors whose
+    country in the vendor master is US print the month first. ISO dates (YYYY-MM-DD) are read as ISO."""
     if not value:
         return None
-    return dateparser.parse(str(value)).date()
+    text = str(value).strip()
+    if _ISO_DATE.fullmatch(text):
+        return date.fromisoformat(text)
+    return dateparser.parse(text, dayfirst=not month_first).date()

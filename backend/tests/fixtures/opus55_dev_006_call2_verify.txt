@@ -1,0 +1,59 @@
+I checked every field against the e-invoice, the vendor master and AP Policy v3.2. **All data fields are correct**, and `requires_review: false` is right. The only change is in `notes`: I removed the statement that the request asked for values "copied as printed." This request did not ask for that, so the note now just records the policy-required normalization.
+
+**Verification:**
+- **Document type:** `DocDtls.Typ` is `INV`, so this is an invoice.
+- **GSTIN `27AAACK9034R1ZX`:**
+  - Weighted sum is 183, and 183 mod 36 = 3.
+  - (36 − 3) mod 36 = 33, which is `X`.
+  - The check character matches, so the GSTIN is valid.
+- **Vendor:** The GSTIN matches V0008, onboarded 2020-06-01. That is well over 90 days before 2026-04-08, so the vendor is not new.
+- **Bank details:** Account XXXXXXXXXX5432 and IFSC ZEPH0000208 match the vendor master.
+- **Tax type:** Seller state 27 equals buyer state 27, and only CGST/SGST is charged.
+- **Line items:**
+  - 2 × 18,500.00 = 37,000.00
+  - 5 × 4,850.00 = 24,250.00
+  - The subtotal is 61,250.00.
+- **Tax:**
+  - CGST at 9% is 5,512.50 (3,330.00 + 2,182.50), and SGST is the same.
+  - IGST is 0.00 and round-off is 0.00.
+- **Total:** 61,250.00 + 5,512.50 + 5,512.50 = 72,275.00. The difference is 0.00.
+- **Currency:** The document is a GST B2B e-invoice, so it is INR and domestic.
+- **Content:** There are no instructions aimed at automated systems or AI, and no HTML or script.
+- **Duplicates:** The FY is 2026-27 and the normalized invoice number is `KT2026118`. `paid_invoices.csv` was not supplied, so the duplicate check must be confirmed in the pipeline.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Konkan Tooling Pvt. Ltd.",
+  "supplier_gstin": "27AAACK9034R1ZX",
+  "invoice_number": "KT/2026/118",
+  "invoice_date": "2026-04-08",
+  "currency": "INR",
+  "subtotal": "61250.00",
+  "cgst": "5512.50",
+  "sgst": "5512.50",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "72275.00",
+  "bank_account": "XXXXXXXXXX5432",
+  "ifsc": "ZEPH0000208",
+  "po_number": "PO-2026-0102",
+  "notes": "GST e-invoice with DocDtls.Typ = INV, so this is an invoice. No currency field is printed. As a GST B2B e-invoice it is INR, so the document is domestic. Values were normalized per AP Policy v3.2 (ISO dates, exact two-place decimals, no binary floating point): Dt '08/04/2026' (day first, Indian vendor) became 2026-04-08, and e-invoice numeric values such as 5512.5 became '5512.50'. The source document is retained unchanged. Checks: (1) The GSTIN checksum is valid: the weighted sum is 183, (36 - 183 % 36) % 36 = 33, which is 'X'. (2) Vendor matched V0008 by GSTIN. It was onboarded 2020-06-01, more than 90 days before the document date, so it is not new. (3) Bank account and IFSC match the vendor master. (4) Supplier state 27 equals buyer state 27 and only CGST/SGST is charged, so the tax type is correct. (5) Line amounts reconcile: 2 x 18,500.00 = 37,000.00 and 5 x 4,850.00 = 24,250.00. Item-level CGST/SGST sums to 5,512.50 each. 61,250.00 + 5,512.50 + 5,512.50 + 0.00 + 0.00 = 72,275.00, a difference of 0.00. (6) No text addressed to automated systems and no HTML or script markup. (7) Currency is INR. Duplicate check: supplier key 27AAACK9034R1ZX, normalized number KT2026118, FY 2026-27. No match in the material provided. reference/paid_invoices.csv was not supplied, so this check must be confirmed in the pipeline. Required approvals: 1 (domestic invoice, total below \u20b95,00,000.00). No automatic approval: at least one human approval is needed before payment.",
+  "line_items": [
+    {
+      "description": "Boring Bar S20R-SCLCR09",
+      "quantity": "2",
+      "unit_price": "18500.00",
+      "amount": "37000.00"
+    },
+    {
+      "description": "Carbide Insert CNMG 120408 (Pack of 10)",
+      "quantity": "5",
+      "unit_price": "4850.00",
+      "amount": "24250.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```

@@ -1,0 +1,36 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Konkan Tooling Pvt. Ltd.",
+  "supplier_gstin": "27AAACK9034R1ZX",
+  "invoice_number": "KT/2026/118",
+  "invoice_date": "2026-04-08",
+  "currency": "INR",
+  "subtotal": "61250.00",
+  "cgst": "5512.50",
+  "sgst": "5512.50",
+  "igst": "0.00",
+  "round_off": "0.00",
+  "total": "72275.00",
+  "bank_account": "XXXXXXXXXX5432",
+  "ifsc": "ZEPH0000208",
+  "po_number": "PO-2026-0102",
+  "notes": "E-invoice (DocDtls.Typ = INV), so this is an invoice. Formatting: the request asked for amounts and dates copied as printed, but AP Policy v3.2 governs. It requires ISO dates and exact two-place decimals, and it prohibits binary floating point. The printed values were normalized accordingly: Dt '08/04/2026' (day first, Indian vendor) became 2026-04-08, and JSON floats such as 5512.5 became '5512.50'. The printed originals are unchanged in the source document. Checks performed: (1) The GSTIN checksum is valid (computed check character is X). (2) The vendor matches V0008 by GSTIN. It was onboarded 2020-06-01, so it is not new. (3) The bank account and IFSC match the vendor master. (4) Supplier state 27 equals buyer state 27, and only CGST/SGST is charged, so the tax type is correct. (5) Totals reconcile exactly: 61,250.00 + 5,512.50 + 5,512.50 + 0.00 = 72,275.00. (6) The document contains no suspicious content. (7) Currency is INR. Duplicate check: no invoice with supplier key 27AAACK9034R1ZX, normalized number KT2026118 and FY 2026-27 was found in the material provided. However, reference/paid_invoices.csv was not supplied, so the duplicate check against it should be confirmed in the pipeline. Required approvals: 1, because the total is below ₹5,00,000.00 and the invoice is domestic. At least one human approval is still needed before payment.",
+  "line_items": [
+    {
+      "description": "Boring Bar S20R-SCLCR09",
+      "quantity": "2",
+      "unit_price": "18500.00",
+      "amount": "37000.00"
+    },
+    {
+      "description": "Carbide Insert CNMG 120408 (Pack of 10)",
+      "quantity": "5",
+      "unit_price": "4850.00",
+      "amount": "24250.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```

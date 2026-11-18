@@ -1,0 +1,42 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Malwa Steel Traders",
+  "supplier_gstin": "23AAHFM7702K1Z9",
+  "invoice_number": "0007",
+  "invoice_date": "2026-04-14",
+  "currency": "INR",
+  "subtotal": "85440.00",
+  "cgst": "0.00",
+  "sgst": "0.00",
+  "igst": "15379.20",
+  "round_off": "-0.20",
+  "total": "100819.00",
+  "bank_account": "XXXXXXXXXX1177",
+  "ifsc": "ZEPH0002303",
+  "po_number": "PO-2026-0110",
+  "notes": "Supplier matched to V0010 (Malwa Steel Traders) by GSTIN. The duplicate check could not be run because reference/paid_invoices.csv and any earlier batch documents were not provided. Confirm that no invoice with normalized number 0007 from GSTIN 23AAHFM7702K1Z9 in FY 2026-27 is already recorded before paying.",
+  "line_items": [
+    {
+      "description": "MS Round Bar EN8 Dia 40mm",
+      "quantity": "1200",
+      "unit_price": "71.20",
+      "amount": "85440.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**How the checks came out**
+
+- **Date and amounts:** I stored these in ISO date and two-decimal form (`2026-04-14`, `100819.00`) rather than exactly as printed. AP Policy §1 requires that format, and the examples use it too. The policy takes precedence over the formatting instruction.
+- **GSTIN:** The format is valid. The checksum gives a sum of 171, and (36 − 171 % 36) % 36 = 9, which matches the printed check character `9`.
+- **Vendor:** The supplier matched V0010. It was onboarded on 2021-07-07, so it is not new.
+- **Bank details:** The account number and IFSC match the vendor master.
+- **Tax type:** The supplier's state is 23 (Madhya Pradesh) and the buyer's is 27, so IGST is correct. No CGST or SGST was charged.
+- **Totals:** 85,440.00 + 15,379.20 − 0.20 = 1,00,819.00, which matches the stated total exactly.
+- **Suspicious content:** There are no AI-directed instructions or markup.
+- **Financial year:** FY 2026-27.
+- **Required approvals:** 1. The total of ₹1,00,819.00 is below ₹5,00,000 and the invoice is in INR. Under §4.3 it still needs one human approval, because nothing is approved automatically.

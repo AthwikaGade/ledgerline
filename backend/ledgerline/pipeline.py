@@ -11,12 +11,24 @@ from .llm.pricing import cost_usd
 from .models import Invoice, LineItem
 from .parsing import parse_amount, parse_date
 from .reference import ReferenceData
-from .validation import run_checks
+from .validation import find_vendor, run_checks, vendor_prints_month_first
+from .validation import required_approvals as policy_approvals
 
-HIGH_VALUE_THRESHOLD = 500000  # invoices above this need two approvals
+# Without these the policy cannot be applied (the duplicate rule needs number and date, approvals and the totals
+# rule need the total and currency), so a document missing any of them is a processing_error, never ready.
+CRITICAL_FIELDS = ("document_type", "invoice_number", "invoice_date", "currency", "total")
+DOCUMENT_TYPES = ("invoice", "credit_note")
 
 
-def normalize(data: dict) -> Invoice:
+def require_critical_fields(data: dict) -> None:
+    missing = [f for f in CRITICAL_FIELDS if data.get(f) is None or str(data.get(f)).strip() == ""]
+    if missing:
+        raise ValueError(f"extraction is missing critical fields: {', '.join(missing)}")
+    if data["document_type"] not in DOCUMENT_TYPES:
+        raise ValueError(f"unknown document_type {data['document_type']!r}")
+
+
+def normalize(data: dict, month_first: bool = False) -> Invoice:
     items = [
         LineItem(
             description=str(item.get("description", "")),
@@ -31,8 +43,8 @@ def normalize(data: dict) -> Invoice:
         supplier_name=data.get("supplier_name"),
         supplier_gstin=data.get("supplier_gstin"),
         invoice_number=data.get("invoice_number"),
-        invoice_date=parse_date(data.get("invoice_date")),
-        currency=data.get("currency") or "INR",
+        invoice_date=parse_date(data.get("invoice_date"), month_first=month_first),
+        currency=(data.get("currency") or "INR").strip().upper(),
         subtotal=parse_amount(data.get("subtotal")),
         cgst=parse_amount(data.get("cgst")) or 0.0,
         sgst=parse_amount(data.get("sgst")) or 0.0,
@@ -66,8 +78,14 @@ def process_document(
     error = None
     try:
         data, responses = extract(raw_text, ref)
-        inv = normalize(data)
-        warnings = run_checks(conn, ref, inv)
+        require_critical_fields(data)
+        # Identify the vendor before reading the date: US vendors print month first, Indian vendors day first.
+        vendor = find_vendor(ref, data.get("supplier_gstin"), data.get("supplier_name"), data.get("currency"))
+        inv = normalize(data, month_first=vendor_prints_month_first(vendor))
+        review_reasons = run_checks(conn, ref, inv, raw_text=raw_text, org_id=org_id)
+        # The model's own routing opinion is kept for the reviewer but never decides anything.
+        warnings = [(f"advisory only, not used for routing: the model suggested requires_review="
+                     f"{data.get('requires_review')!r}, review_reasons={data.get('review_reasons')!r}")]
     except ExtractionError as exc:
         responses, error = exc.responses, str(exc)
     except Exception as exc:  # noqa: BLE001 - any failure here must become processing_error, never a dropped doc
@@ -81,10 +99,9 @@ def process_document(
         needs_review, review_reasons, required_approvals = True, ["processing_error"], 1
         status = "needs_review"
     else:
-        # v0.3: the model applies the AP policy itself (it has the full policy text in its prompt).
-        needs_review = bool(data.get("requires_review", False))
-        review_reasons = list(data.get("review_reasons") or [])
-        required_approvals = 2 if (inv.total or 0) > HIGH_VALUE_THRESHOLD else 1
+        # Routing is decided by code from AP_POLICY sections 3 and 4 (ARCHITECTURE.md decision 1).
+        needs_review = bool(review_reasons)
+        required_approvals = policy_approvals(inv)
         status = "needs_review" if needs_review else "ready_for_approval"
 
     cur = conn.execute(
