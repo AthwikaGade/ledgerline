@@ -1,0 +1,117 @@
+# Fix 4 tests INCLUDING the added safeguard tests (org boundaries, rollback, migrations), against committed code 5b8bea3 with no approval changes, 2026-11-18T19:30Z. The original run is kept unchanged in fix4_tests_before.txt. Paths replaced with placeholders.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 24 items
+
+tests\test_approvals.py FFFFFFFFFFFFF.FFFFFFFFFF                         [100%]
+
+================================== FAILURES ===================================
+E   AssertionError: assert 2 == 1
+     +  where 2 = count(<starlette.testclient.TestClient object at 0x0000029D04F7E630>, 'approvals', 1)
+<repo>\backend\tests\test_approvals.py:63: AssertionError: assert 2 == 1
+E   assert 200 == 409
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approvals.py:71: assert 200 == 409
+E   AssertionError: assert 8 == 1
+     +  where 8 = count(<starlette.testclient.TestClient object at 0x0000029D04FA6780>, 'payments', 1)
+<repo>\backend\tests\test_approvals.py:96: AssertionError: assert 8 == 1
+E   Failed: DID NOT RAISE IntegrityError
+<repo>\backend\tests\test_approvals.py:105: Failed: DID NOT RAISE IntegrityError
+E   AssertionError: assert 'approved' != 'approved'
+     +  where 'approved' = status(<starlette.testclient.TestClient object at 0x0000029D04FA4320>, 1)
+<repo>\backend\tests\test_approvals.py:116: AssertionError: assert 'approved' != 'approved'
+E   Failed: DID NOT RAISE IntegrityError
+<repo>\backend\tests\test_approvals.py:127: Failed: DID NOT RAISE IntegrityError
+E   AssertionError: assert 200 == 422
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04FA7290>, 1, user='')
+<repo>\backend\tests\test_approvals.py:134: AssertionError: assert 200 == 422
+E   AssertionError: assert 200 == 422
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04FA61B0>, 1, user='   ')
+<repo>\backend\tests\test_approvals.py:134: AssertionError: assert 200 == 422
+E   assert 200 == 409
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04FA4890>, 1)
+<repo>\backend\tests\test_approvals.py:143: assert 200 == 409
+E   assert 200 == 409
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04FA6930>, 1)
+<repo>\backend\tests\test_approvals.py:151: assert 200 == 409
+E   assert 200 == 409
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = reject(<starlette.testclient.TestClient object at 0x0000029D04FA4B00>, 1)
+<repo>\backend\tests\test_approvals.py:160: assert 200 == 409
+E   AssertionError: assert 200 == 422
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04F7D6D0>, 1, note='')
+<repo>\backend\tests\test_approvals.py:170: AssertionError: assert 200 == 422
+E   AssertionError: assert 200 == 422
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = approve(<starlette.testclient.TestClient object at 0x0000029D04FA66F0>, 1, note='   ')
+<repo>\backend\tests\test_approvals.py:170: AssertionError: assert 200 == 422
+E   sqlite3.OperationalError: no such table: audit_log
+<repo>\backend\tests\test_approvals.py:188: sqlite3.OperationalError: no such table: audit_log
+E   sqlite3.OperationalError: no such table: audit_log
+<repo>\backend\tests\test_approvals.py:201: sqlite3.OperationalError: no such table: audit_log
+E   AssertionError: assert 200 == 404
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = get('/api/invoices/1', headers={'x-org-id': 'another-client'})
+     +      where get = <starlette.testclient.TestClient object at 0x0000029D04F7DC70>.get
+<repo>\backend\tests\test_approvals.py:212: AssertionError: assert 200 == 404
+E   assert 200 == 404
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approvals.py:219: assert 200 == 404
+E   assert 200 == 404
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approvals.py:228: assert 200 == 404
+E   sqlite3.OperationalError: no such table: audit_log
+<repo>\backend\tests\test_approvals.py:47: sqlite3.OperationalError: no such table: audit_log
+E   sqlite3.OperationalError: no such table: main.audit_log
+<repo>\backend\tests\test_approvals.py:236: sqlite3.OperationalError: no such table: main.audit_log
+E   AssertionError: assert {'approvals_o..._per_invoice'} <= {'approvals',...ite_sequence'}
+      
+      Extra items in the left set:
+      'payments_one_per_invoice'
+      'audit_log'
+      'approvals_one_per_person'
+<repo>\backend\tests\test_approvals.py:295: AssertionError: assert {'approvals_o..._per_invoice'} <= {'approvals',...ite_sequence'}
+E   AssertionError: assert {'approvals_o..._per_invoice'} <= {'approvals',...ite_sequence'}
+      
+      Extra items in the left set:
+      'payments_one_per_invoice'
+      'audit_log'
+      'approvals_one_per_person'
+<repo>\backend\tests\test_approvals.py:302: AssertionError: assert {'approvals_o..._per_invoice'} <= {'approvals',...ite_sequence'}
+E   Failed: DID NOT RAISE RuntimeError
+<repo>\backend\tests\test_approvals.py:309: Failed: DID NOT RAISE RuntimeError
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_approvals.py::test_a_clean_invoice_can_be_approved_without_a_note
+FAILED tests/test_approvals.py::test_double_click_records_one_approval_and_one_payment
+FAILED tests/test_approvals.py::test_another_approver_on_an_approved_invoice_creates_no_second_payment
+FAILED tests/test_approvals.py::test_concurrent_approvals_create_exactly_one_payment
+FAILED tests/test_approvals.py::test_the_database_itself_refuses_a_second_payment_instruction
+FAILED tests/test_approvals.py::test_one_person_approving_twice_counts_once
+FAILED tests/test_approvals.py::test_the_database_itself_refuses_the_same_approver_twice
+FAILED tests/test_approvals.py::test_an_approval_needs_a_named_approver[] - A...
+FAILED tests/test_approvals.py::test_an_approval_needs_a_named_approver[   ]
+FAILED tests/test_approvals.py::test_a_credit_note_cannot_be_approved_or_paid
+FAILED tests/test_approvals.py::test_a_rejected_invoice_cannot_then_be_approved
+FAILED tests/test_approvals.py::test_an_approved_invoice_cannot_then_be_rejected
+FAILED tests/test_approvals.py::test_approving_an_invoice_that_needed_review_requires_a_note[]
+FAILED tests/test_approvals.py::test_approving_an_invoice_that_needed_review_requires_a_note[   ]
+FAILED tests/test_approvals.py::test_approvals_and_rejections_are_recorded_in_the_audit_log
+FAILED tests/test_approvals.py::test_a_rejection_without_a_note_is_still_audited
+FAILED tests/test_approvals.py::test_another_organisation_cannot_see_an_invoice
+FAILED tests/test_approvals.py::test_another_organisation_cannot_approve_an_invoice
+FAILED tests/test_approvals.py::test_another_organisation_cannot_reject_an_invoice
+FAILED tests/test_approvals.py::test_a_failure_while_creating_the_payment_rolls_back_the_whole_approval
+FAILED tests/test_approvals.py::test_a_failure_while_auditing_rolls_back_the_rejection
+FAILED tests/test_approvals.py::test_a_fresh_database_gets_the_constraints_and_the_audit_log
+FAILED tests/test_approvals.py::test_an_existing_clean_database_is_migrated
+FAILED tests/test_approvals.py::test_existing_duplicate_payments_stop_the_migration_with_a_clear_error
+======================== 23 failed, 1 passed in 2.14s =========================

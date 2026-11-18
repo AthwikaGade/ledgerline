@@ -61,13 +61,54 @@ CREATE TABLE IF NOT EXISTS llm_calls (
     latency_ms INTEGER,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+-- AP_POLICY 4.7: who, when, which document, and the note, for every approval and rejection.
+CREATE TABLE IF NOT EXISTS audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(id),
+    user_id TEXT NOT NULL,
+    action TEXT NOT NULL CHECK (action IN ('approve', 'reject')),
+    note TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
 """
+
+# Enforced by the database, not only by the API: AP_POLICY 4.6 (exactly one payment instruction per invoice) and
+# 4.2 (one person approving twice counts once). Unique indexes also apply to databases created by the starter.
+UNIQUE_INDEXES = [
+    ("payments_one_per_invoice", "payments", ("invoice_id",)),
+    ("approvals_one_per_person", "approvals", ("invoice_id", "user_id")),
+]
+BUSY_TIMEOUT_SECONDS = 30  # concurrent writers wait for the lock instead of failing
+
+
+class MigrationError(RuntimeError):
+    """The database holds rows that the new constraints forbid. No rows are changed and the index is not created."""
+
+
+def _add_unique_indexes(conn: sqlite3.Connection) -> None:
+    for name, table, columns in UNIQUE_INDEXES:
+        cols = ", ".join(columns)
+        duplicates = conn.execute(
+            f"SELECT {cols}, COUNT(*) AS n FROM {table} GROUP BY {cols} HAVING COUNT(*) > 1").fetchall()
+        if duplicates:
+            found = "; ".join(", ".join(f"{c}={row[c]}" for c in columns) + f" ({row['n']} rows)" for row in duplicates)
+            raise MigrationError(
+                f"Cannot add {name}: table {table} already has duplicate rows for ({cols}): {found}. "
+                f"For payments these are real duplicate payment instructions; finance must resolve them before "
+                f"Ledgerline can start. No rows were changed and the index was not created.")
+        conn.execute(f"CREATE UNIQUE INDEX IF NOT EXISTS {name} ON {table} ({cols})")
+    conn.commit()
 
 
 def connect(path: str) -> sqlite3.Connection:
-    conn = sqlite3.connect(path, check_same_thread=False)
+    conn = sqlite3.connect(path, check_same_thread=False, timeout=BUSY_TIMEOUT_SECONDS)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    try:
+        _add_unique_indexes(conn)
+    except Exception:
+        conn.close()
+        raise
     return conn
 
 

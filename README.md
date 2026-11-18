@@ -197,3 +197,31 @@ Consumers of the batch output should treat `"processing_error"` as "fields unkno
 `required_approvals: 1` on these lines does **not** make the document payable. The API refuses to approve a
 document with an unresolved `processing_error` (HTTP 409), so no approval and no payment instruction can be
 recorded for it.
+
+### Approvals and payment instructions
+
+AP_POLICY section 4 is enforced on the server, inside one SQLite transaction per decision (`BEGIN IMMEDIATE`),
+and backed by database constraints, so it holds under double-clicks, retries and simultaneous requests:
+
+- **Exactly one payment instruction per invoice**: unique index `payments_one_per_invoice`.
+- **One person approving twice counts once**: unique index `approvals_one_per_person`. A retry by someone who has
+  already approved returns 200 and changes nothing; a different person approving an approved invoice gets 409.
+- **Never approvable (409)**: credit notes, duplicates, rejected invoices, unresolved `processing_error`.
+- **Approved invoices cannot be rejected (409)**: their payment instruction already exists.
+- **Approving a document that needed review requires a note (422).** Rejection notes are optional.
+- **Audit log**: every approval and rejection is recorded in `audit_log` (who, when, which invoice, note). If any
+  step fails, the approval, status change, payment instruction and audit entry are all rolled back together.
+- **Organisations**: invoice detail, approve and reject only see the caller's organisation; another
+  organisation's invoice is reported as not found (404).
+
+Existing databases are migrated on start-up: the `audit_log` table and the unique indexes are added. If an existing
+database already contains duplicate payment instructions (or the same approver twice on one invoice), Ledgerline
+refuses to start and names the affected invoices. Those are real double payments that finance must resolve first;
+no rows are changed.
+
+### Known limitation: approver identity is not authenticated
+
+`user_id` (request body) and the organisation (`X-Org-Id` header) are whatever the caller sends. The rules above
+stop the same *name* from approving twice; they **do not prove that two different real people approved**, and they
+do not stop someone from typing another person's name or another organisation's ID. Before Ledgerline handles
+every invoice, both values must come from authentication (for example Meridian's SSO), not from the request.

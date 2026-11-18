@@ -1,0 +1,17 @@
+# Approval defects reproduced against SQLite through the real FastAPI app, code at 5b8bea3 (unchanged), 2026-11-18T19:18Z.
+S1 double-click: same approver, 1-approval invoice, two identical requests
+    HTTP 200 HTTP 200 -> status='approved' approvals=[('kavya', 'ok'), ('kavya', 'ok')] payments=[23458.0, 23458.0]
+S2 retry after approval: a second approver clicks an already-approved invoice
+    HTTP 200 HTTP 200 -> status='approved' approvals=[('kavya', 'ok'), ('farhan', 'ok')] payments=[23458.0, 23458.0]
+S3 one person twice on a 2-approval invoice (USD)
+    required_approvals = 2 | HTTP 200 HTTP 200 -> status='approved' approvals=[('kavya', 'ok'), ('kavya', 'ok')] payments=[23458.0]
+S4 credit note (policy: never approved for payment)
+    required_approvals = 0 | HTTP 200 -> status='approved' approvals=[('kavya', 'ok')] payments=[23458.0]
+S5 rejected, then approved
+    reject HTTP 200 HTTP 200 -> status='approved' approvals=[('kavya', 'ok')] payments=[23458.0]
+S6 needs-review invoice approved with no note (policy 4.5 requires one)
+    reasons = ['tax_type_mismatch'] | HTTP 200 -> status='approved' approvals=[('kavya', '')] payments=[23458.0]
+S7 rejection audit trail (policy 4.7: who, when, which document, note)
+    tables: ['invoices', 'approvals', 'payments', 'llm_calls'] | rows anywhere containing the rejection note 'wrong PO': NONE (only invoices.status was changed)
+S8 concurrent: 8 approvers press Approve at the same moment, each on its own DB connection
+    results=['approved'] -> payment instructions for one invoice: 8
