@@ -1,0 +1,37 @@
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Sitara Industrial Supplies Pvt. Ltd.",
+  "supplier_gstin": "27AAKCS4821M1ZW",
+  "invoice_number": "SIS/26-27/0042",
+  "invoice_date": "2026-04-25",
+  "currency": "INR",
+  "subtotal": "19880.00",
+  "cgst": "1789.20",
+  "sgst": "1789.20",
+  "igst": "0.00",
+  "round_off": "-0.40",
+  "total": "23458.00",
+  "bank_account": "XXXXXXXXXX5678",
+  "ifsc": "ZEPH0001234",
+  "po_number": "PO-2026-0117",
+  "notes": "The date is stored in ISO format (printed as 25/04/2026, DD/MM/YYYY, Indian vendor). Amounts are exact two-place decimals without grouping, as the policy requires, rather than copied verbatim. The duplicate check was NOT performed because reference/paid_invoices.csv and batch context were not supplied. This invoice number (SIS2627000042 normalized, FY 2026-27) is identical to the sample Sitara invoice shown in the examples, so confirm it has not already been paid before approving. Required approvals: 1. There is no automatic approval.",
+  "line_items": [
+    {"description": "SS Hex Bolt M10x40 (Box/100)", "quantity": "12", "unit_price": "1450.00", "amount": "17400.00"},
+    {"description": "Spring Washer M10 (Pkt/500)", "quantity": "4", "unit_price": "620.00", "amount": "2480.00"}
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**Checks performed**
+- **Document type:** The document is titled "Tax Invoice", so it is an invoice, not a credit note.
+- **GSTIN:** 27AAKCS4821M1ZW has a valid format. The Appendix A checksum sum is 184, and 184 mod 36 = 4, giving check character W, which matches.
+- **Vendor:** The GSTIN matches V0030, Sitara Industrial Supplies Pvt. Ltd. It was onboarded 2023-02-10, more than 90 days before the invoice date, so it is not new.
+- **Bank details:** The account XXXXXXXXXX5678 and IFSC ZEPH0001234 match the vendor master.
+- **Tax type:** The supplier's state code is 27, the same as the buyer's. CGST and SGST are charged and no IGST, which is correct.
+- **Totals:** 19,880.00 + 1,789.20 + 1,789.20 − 0.40 = 23,458.00, which equals the stated total. The difference is ₹0.00.
+- **Currency:** INR, so the document is domestic.
+- **Suspicious content:** None found. There are no instructions aimed at automated systems and no HTML or script.
+- **Duplicate:** Not verifiable with the data provided. See the notes above. If this invoice already appears in paid_invoices.csv, flag it as `duplicate`, which blocks approval.

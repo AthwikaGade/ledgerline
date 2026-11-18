@@ -1,0 +1,62 @@
+# NOTE: machine-specific paths replaced with <repo>/<tmp>/<python>/<user>; no other edits.
+# Fix 1 tests against the ORIGINAL starter code (6e59f77, no application code changed)
+# 2026-11-18T18:48Z
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 9 items
+
+tests\test_processing_errors.py FFFFFFFFF                                [100%]
+
+================================== FAILURES ===================================
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<python>\Lib\json\decoder.py:355: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<python>\Lib\json\decoder.py:355: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+E   RuntimeError: provider unavailable
+<repo>\backend\tests\test_processing_errors.py:32: RuntimeError: provider unavailable
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<python>\Lib\json\decoder.py:355: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<python>\Lib\json\decoder.py:355: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<python>\Lib\json\decoder.py:355: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+E   ValueError: not enough values to unpack (expected 1, got 0)
+---------------------------- Captured stdout call -----------------------------
+wrote 0/1 predictions to <tmp>\test_batch_line_for_a_failed_d0\predictions.jsonl
+---------------------------- Captured stderr call -----------------------------
+[skip] bad_001.txt: Expecting value: line 1 column 1 (char 0)
+<repo>\backend\tests\test_processing_errors.py:138: ValueError: not enough values to unpack (expected 1, got 0)
+E   AssertionError: assert [] == ['enc_001']
+      
+      Right contains one more item: 'enc_001'
+      Use -v to get more diff
+---------------------------- Captured stdout call -----------------------------
+wrote 0/1 predictions to <tmp>\test_batch_does_not_skip_a_fil0\predictions.jsonl
+---------------------------- Captured stderr call -----------------------------
+[skip] enc_001.txt: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+<repo>\backend\tests\test_processing_errors.py:146: AssertionError: assert [] == ['enc_001']
+E   AssertionError: assert [] == ['a_001', 'a_002', 'a_003']
+      
+      Right contains 3 more items, first extra item: 'a_001'
+      Use -v to get more diff
+---------------------------- Captured stdout call -----------------------------
+wrote 0/3 predictions to <tmp>\test_batch_never_skips_a_docum0\predictions.jsonl
+---------------------------- Captured stderr call -----------------------------
+[skip] a_001.txt: Expecting value: line 1 column 1 (char 0)
+[skip] a_002.eml: Expecting value: line 1 column 1 (char 0)
+[skip] a_003.json: Expecting value: line 1 column 1 (char 0)
+<repo>\backend\tests\test_processing_errors.py:160: AssertionError: assert [] == ['a_001', 'a_002', 'a_003']
+=========================== short test summary info ===========================
+FAILED tests/test_processing_errors.py::test_recorded_opus_response_with_fence_and_prose_is_parsed
+FAILED tests/test_processing_errors.py::test_unparseable_response_goes_to_review_as_processing_error
+FAILED tests/test_processing_errors.py::test_provider_failure_goes_to_review_as_processing_error
+FAILED tests/test_processing_errors.py::test_calls_made_for_a_failed_document_are_still_recorded
+FAILED tests/test_processing_errors.py::test_failed_document_is_stored_without_invented_values
+FAILED tests/test_processing_errors.py::test_unresolved_processing_error_never_creates_a_payment
+FAILED tests/test_processing_errors.py::test_batch_line_for_a_failed_document_meets_the_output_contract
+FAILED tests/test_processing_errors.py::test_batch_does_not_skip_a_file_that_is_not_valid_utf8
+FAILED tests/test_processing_errors.py::test_batch_never_skips_a_document - A...
+============================== 9 failed in 1.10s ==============================

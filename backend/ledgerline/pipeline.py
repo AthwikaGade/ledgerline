@@ -6,7 +6,7 @@ import sqlite3
 from dataclasses import asdict
 
 from . import db
-from .extraction import extract
+from .extraction import ExtractionError, extract
 from .llm.pricing import cost_usd
 from .models import Invoice, LineItem
 from .parsing import parse_amount, parse_date
@@ -47,6 +47,13 @@ def normalize(data: dict) -> Invoice:
     )
 
 
+def _unknown_invoice() -> Invoice:
+    """A document whose fields could not be extracted. `invoice` is the conservative type: it needs approval."""
+    return Invoice(document_type="invoice", supplier_name=None, supplier_gstin=None, invoice_number=None,
+                   invoice_date=None, currency=None, subtotal=None, cgst=None, sgst=None, igst=None,
+                   round_off=None, total=None, bank_account=None, ifsc=None, po_number=None, notes=None)
+
+
 def process_document(
     conn: sqlite3.Connection,
     ref: ReferenceData,
@@ -55,15 +62,30 @@ def process_document(
     org_id: str = "meridian",
     filename: str | None = None,
 ) -> dict:
-    data, responses = extract(raw_text, ref)
-    inv = normalize(data)
-    warnings = run_checks(conn, ref, inv)
+    responses: list = []
+    error = None
+    try:
+        data, responses = extract(raw_text, ref)
+        inv = normalize(data)
+        warnings = run_checks(conn, ref, inv)
+    except ExtractionError as exc:
+        responses, error = exc.responses, str(exc)
+    except Exception as exc:  # noqa: BLE001 - any failure here must become processing_error, never a dropped doc
+        error = f"{type(exc).__name__}: {exc}"
 
-    # v0.3: the model applies the AP policy itself (it has the full policy text in its prompt).
-    needs_review = bool(data.get("requires_review", False))
-    review_reasons = list(data.get("review_reasons") or [])
-    required_approvals = 2 if (inv.total or 0) > HIGH_VALUE_THRESHOLD else 1
-    status = "needs_review" if needs_review else "ready_for_approval"
+    if error is not None:
+        # AP_POLICY 3: processing_error always goes to review and is never dropped. Nothing is invented: every
+        # extracted field stays unknown (NULL). required_approvals is a provisional 1; it does not make the
+        # document payable, because the approve endpoint refuses documents with an unresolved processing_error.
+        inv, data, warnings = _unknown_invoice(), {}, [f"processing_error: {error}"]
+        needs_review, review_reasons, required_approvals = True, ["processing_error"], 1
+        status = "needs_review"
+    else:
+        # v0.3: the model applies the AP policy itself (it has the full policy text in its prompt).
+        needs_review = bool(data.get("requires_review", False))
+        review_reasons = list(data.get("review_reasons") or [])
+        required_approvals = 2 if (inv.total or 0) > HIGH_VALUE_THRESHOLD else 1
+        status = "needs_review" if needs_review else "ready_for_approval"
 
     cur = conn.execute(
         """INSERT INTO invoices (org_id, document_id, filename, raw_text, document_type, supplier_name,

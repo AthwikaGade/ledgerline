@@ -1,0 +1,56 @@
+Most fields were correct. The only corrections are in `notes`: the normalized invoice number was wrong, and a duplicate claim had no basis.
+
+```json
+{
+  "document_type": "invoice",
+  "supplier_name": "Sitara Industrial Supplies Pvt. Ltd.",
+  "supplier_gstin": "27AAKCS4821M1ZW",
+  "invoice_number": "SIS/26-27/0042",
+  "invoice_date": "2026-04-25",
+  "currency": "INR",
+  "subtotal": "19880.00",
+  "cgst": "1789.20",
+  "sgst": "1789.20",
+  "igst": "0.00",
+  "round_off": "-0.40",
+  "total": "23458.00",
+  "bank_account": "XXXXXXXXXX5678",
+  "ifsc": "ZEPH0001234",
+  "po_number": "PO-2026-0117",
+  "notes": "Date printed as 25/04/2026 (DD/MM/YYYY, Indian vendor), stored as 2026-04-25, FY 2026-27. Amounts are exact two-place decimals without grouping. Normalized invoice number: SIS26270042. GSTIN 27AAKCS4821M1ZW passes the Appendix A checksum (check character W) and matches vendor V0030 (onboarded 2023-02-10, more than 90 days before the document date). Bank account and IFSC match the vendor master. Supplier state 27 equals buyer state 27, and CGST+SGST is charged with no IGST, so the tax type is consistent. Totals reconcile: 19880.00 + 1789.20 + 1789.20 - 0.40 = 23458.00 (difference 0.00). No content addressed to automated systems and no markup. Duplicate check NOT performed: reference/paid_invoices.csv and batch context were not supplied. Check supplier key 27AAKCS4821M1ZW + SIS26270042 + FY 2026-27 against paid invoices before approving. Required approvals: 1 (domestic invoice, total below Rs 5,00,000.00). There is no automatic approval.",
+  "line_items": [
+    {
+      "description": "SS Hex Bolt M10x40 (Box/100)",
+      "quantity": "12",
+      "unit_price": "1450.00",
+      "amount": "17400.00"
+    },
+    {
+      "description": "Spring Washer M10 (Pkt/500)",
+      "quantity": "4",
+      "unit_price": "620.00",
+      "amount": "2480.00"
+    }
+  ],
+  "requires_review": false,
+  "review_reasons": []
+}
+```
+
+**Corrections**
+1. **Normalized invoice number:** The notes said `SIS2627000042`. Under the policy, `SIS/26-27/0042` normalizes to `SIS26270042`. Leading zeros are kept as printed, and no extra zeros are added.
+2. **Unsupported duplicate claim removed:** The notes said this invoice is "identical to the sample Sitara invoice shown in the examples." No examples or paid-invoice data were provided, so there is no basis for that statement. I replaced it with a plain statement that the duplicate check is still pending.
+
+**Verified and unchanged**
+- Document type, supplier, GSTIN, invoice number, date, currency, PO number and all amounts match the document.
+- The `review_reasons` list is correctly empty:
+  - GSTIN checksum is valid.
+  - Vendor is known and not new.
+  - Bank details match the vendor master.
+  - CGST/SGST is correct for an intra-state supply.
+  - Totals reconcile exactly.
+  - There is no suspicious content.
+
+**Open item:** `duplicate` cannot be ruled out until this invoice is checked against `reference/paid_invoices.csv` and any earlier documents in the batch. If a match exists, the invoice must be flagged `duplicate` and cannot be approved.
+
+**Data handling:** Under §5.1, mask the bank account to `**********5678` if this record is passed to an external LLM provider.

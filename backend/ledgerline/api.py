@@ -66,6 +66,9 @@ def approve_invoice(invoice_id: int, body: DecisionRequest, conn=Depends(get_con
     invoice = db.get_invoice(conn, invoice_id)
     if invoice is None:
         raise HTTPException(status_code=404, detail="Invoice not found")
+    if "processing_error" in invoice["review_reasons"]:
+        raise HTTPException(status_code=409, detail="This document could not be processed reliably. It cannot be "
+                            "approved until it has been extracted and validated successfully.")
     conn.execute(
         "INSERT INTO approvals (invoice_id, user_id, note) VALUES (?, ?, ?)", (invoice_id, body.user_id, body.note)
     )

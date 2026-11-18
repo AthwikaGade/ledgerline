@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 from .config import get_settings
 from .llm import LLMResponse, get_client
@@ -66,11 +67,48 @@ VENDOR MASTER (CSV):
 """
 
 
+_FENCED_JSON = re.compile(r"```(?:json)?\s*(\{.*\})\s*```", re.DOTALL)
+
+
+class ExtractionError(Exception):
+    """The document could not be extracted reliably. Carries the LLM calls already made, so their cost is recorded."""
+
+    def __init__(self, message: str, responses: list[LLMResponse]):
+        super().__init__(message)
+        self.responses = responses
+
+
+def parse_model_json(text: str) -> dict:
+    """Return the JSON object in a model response: bare JSON, JSON in a ```json fence, or JSON surrounded by prose.
+
+    The object is always a verbatim slice of the response; nothing is edited. No JSON raises ValueError; JSON that
+    is not an object raises TypeError.
+    """
+    try:
+        data = json.loads(text)
+    except ValueError:
+        match = _FENCED_JSON.search(text)
+        candidate = match.group(1) if match else text[text.find("{"): text.rfind("}") + 1]
+        try:
+            data = json.loads(candidate)
+        except ValueError:
+            raise ValueError("the model response does not contain a parseable JSON object") from None
+    if not isinstance(data, dict):
+        raise TypeError("the model response JSON is not an object")
+    return data
+
+
 def extract(document_text: str, ref: ReferenceData) -> tuple[dict, list[LLMResponse]]:
     """Two passes: extract, then let the model double-check its own work (+2 points on the eval)."""
     client = get_client()
-    first = client.complete(SYSTEM_PROMPT, build_extraction_prompt(document_text, ref))
-    data = json.loads(first.text)
-    second = client.complete(SYSTEM_PROMPT, build_verification_prompt(document_text, data, ref))
-    data = json.loads(second.text)
-    return data, [first, second]
+    responses: list[LLMResponse] = []
+    try:
+        first = client.complete(SYSTEM_PROMPT, build_extraction_prompt(document_text, ref))
+        responses.append(first)
+        data = parse_model_json(first.text)
+        second = client.complete(SYSTEM_PROMPT, build_verification_prompt(document_text, data, ref))
+        responses.append(second)
+        data = parse_model_json(second.text)
+    except Exception as exc:  # provider error or unusable response: the caller routes it to processing_error
+        raise ExtractionError(f"{type(exc).__name__}: {exc}", responses) from exc
+    return data, responses

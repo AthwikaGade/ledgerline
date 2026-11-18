@@ -35,6 +35,19 @@ def to_contract(invoice: dict) -> dict:
     return out
 
 
+def processing_error_line(document_id: str) -> dict:
+    """Last-resort contract line for a document that failed before or outside the pipeline (e.g. not UTF-8).
+
+    Every contract field is present; unknown values are null rather than invented."""
+    out = {"document_id": document_id}
+    out.update({f: None for f in TEXT_FIELDS})
+    out["document_type"] = "invoice"
+    out.update({f: None for f in MONEY_FIELDS})
+    out.update(line_items=[], needs_review=True, review_reasons=["processing_error"], required_approvals=1,
+               usage={"llm_calls": 0, "input_tokens": 0, "output_tokens": 0, "cost_inr": 0.0, "latency_ms": 0})
+    return out
+
+
 def predict(args: argparse.Namespace) -> None:
     ref = load_reference(args.reference)
     db_path = args.db or str(Path(tempfile.mkdtemp(prefix="ledgerline-")) / "predict.db")
@@ -46,10 +59,11 @@ def predict(args: argparse.Namespace) -> None:
             try:
                 invoice = process_document(conn, ref, path.read_text(encoding="utf-8"), path.stem,
                                            filename=path.name)
-            except Exception as exc:  # keep the batch going
-                print(f"[skip] {path.name}: {exc}", file=sys.stderr)
-                continue
-            out.write(json.dumps(to_contract(invoice), ensure_ascii=False) + "\n")
+                line = to_contract(invoice)
+            except Exception as exc:  # noqa: BLE001 - OUTPUT_CONTRACT: never skip a document; write processing_error
+                print(f"[processing_error] {path.name}: {exc}", file=sys.stderr)
+                line = processing_error_line(path.stem)
+            out.write(json.dumps(line, ensure_ascii=False) + "\n")
             written += 1
     print(f"wrote {written}/{len(documents)} predictions to {args.output}")
 

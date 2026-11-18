@@ -172,3 +172,28 @@ submission/               templates for your write-ups
 ## Running my version
 
 _Describe anything that changed about setup or commands._
+
+### Output contract: documents that could not be processed
+
+Ledgerline never skips a document. When it cannot extract one reliably (the provider fails, the model's answer
+contains no usable JSON, a value cannot be parsed, or the file is not valid UTF-8), the batch still writes a line
+for it with `needs_review: true` and `"processing_error"` in `review_reasons`.
+
+On such a line, every field the extraction did not reliably produce is `null`. Nothing is guessed:
+
+| Field | Contract type | On a `processing_error` line |
+|---|---|---|
+| `supplier_gstin`, `bank_account`, `ifsc`, `po_number` | string or null | `null`, within the contract |
+| `supplier_name`, `invoice_number`, `currency` | string | `null`: **deliberate deviation** |
+| `invoice_date` | `"YYYY-MM-DD"` | `null`: **deliberate deviation** |
+| `subtotal`, `cgst`, `sgst`, `igst`, `round_off`, `total` | string | `null`: **deliberate deviation** (the starter already did this for unreadable amounts) |
+| `document_type` | `"invoice"` or `"credit_note"` | `"invoice"`, the conservative choice because an invoice needs approval |
+| `line_items` | list | `[]` |
+| `required_approvals` | integer | `1`, provisional (see below) |
+
+Why `null` instead of `""`, `"0.00"` or a date: any of those would look like a real value read from the document.
+Consumers of the batch output should treat `"processing_error"` as "fields unknown" and send the document to review.
+
+`required_approvals: 1` on these lines does **not** make the document payable. The API refuses to approve a
+document with an unresolved `processing_error` (HTTP 409), so no approval and no payment instruction can be
+recorded for it.

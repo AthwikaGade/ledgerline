@@ -1,0 +1,59 @@
+# Fix 1 tests AFTER the change (working tree on 6e59f77), 2026-11-18T18:57Z
+# Machine-specific paths replaced with placeholders.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0
+collected 29 items
+
+tests\test_api.py ..                                                     [  6%]
+tests\test_parsing.py .......                                            [ 31%]
+tests\test_pipeline.py ...                                               [ 41%]
+tests\test_processing_errors.py .........                                [ 72%]
+tests\test_validation.py ........                                        [100%]
+
+=================================== PASSES ====================================
+_______ test_batch_line_for_a_failed_document_meets_the_output_contract _______
+---------------------------- Captured stdout call -----------------------------
+wrote 1/1 predictions to <tmp>\test_batch_line_for_a_failed_d0\predictions.jsonl
+___________ test_batch_does_not_skip_a_file_that_is_not_valid_utf8 ____________
+---------------------------- Captured stdout call -----------------------------
+wrote 1/1 predictions to <tmp>\test_batch_does_not_skip_a_fil0\predictions.jsonl
+---------------------------- Captured stderr call -----------------------------
+[processing_error] enc_001.txt: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+______________________ test_batch_never_skips_a_document ______________________
+---------------------------- Captured stdout call -----------------------------
+wrote 3/3 predictions to <tmp>\test_batch_never_skips_a_docum0\predictions.jsonl
+=========================== short test summary info ===========================
+PASSED tests/test_api.py::test_upload_list_get_approve
+PASSED tests/test_api.py::test_stats_counts_processed_documents
+PASSED tests/test_parsing.py::test_parse_amount_indian_grouping
+PASSED tests/test_parsing.py::test_parse_amount_rupee_symbol
+PASSED tests/test_parsing.py::test_parse_amount_passes_numbers_through
+PASSED tests/test_parsing.py::test_parse_amount_empty_is_none
+PASSED tests/test_parsing.py::test_parse_date_iso
+PASSED tests/test_parsing.py::test_parse_date_with_slashes
+PASSED tests/test_parsing.py::test_parse_date_day_first_when_unambiguous
+PASSED tests/test_pipeline.py::test_process_document_persists_invoice
+PASSED tests/test_pipeline.py::test_document_text_reaches_the_model
+PASSED tests/test_pipeline.py::test_line_items_are_stored
+PASSED tests/test_processing_errors.py::test_recorded_opus_response_with_fence_and_prose_is_parsed
+PASSED tests/test_processing_errors.py::test_unparseable_response_goes_to_review_as_processing_error
+PASSED tests/test_processing_errors.py::test_provider_failure_goes_to_review_as_processing_error
+PASSED tests/test_processing_errors.py::test_calls_made_for_a_failed_document_are_still_recorded
+PASSED tests/test_processing_errors.py::test_failed_document_is_stored_without_invented_values
+PASSED tests/test_processing_errors.py::test_unresolved_processing_error_never_creates_a_payment
+PASSED tests/test_processing_errors.py::test_batch_line_for_a_failed_document_meets_the_output_contract
+PASSED tests/test_processing_errors.py::test_batch_does_not_skip_a_file_that_is_not_valid_utf8
+PASSED tests/test_processing_errors.py::test_batch_never_skips_a_document
+PASSED tests/test_validation.py::test_valid_gstin_accepted
+PASSED tests/test_validation.py::test_short_gstin_rejected
+PASSED tests/test_validation.py::test_missing_gstin_rejected
+PASSED tests/test_validation.py::test_inter_state_igst_is_fine
+PASSED tests/test_validation.py::test_totals_match
+PASSED tests/test_validation.py::test_totals_mismatch_detected
+PASSED tests/test_validation.py::test_duplicate_of_paid_invoice
+PASSED tests/test_validation.py::test_new_invoice_is_not_a_duplicate
+============================= 29 passed in 1.27s ==============================
