@@ -15,14 +15,17 @@ import pytest
 
 from ledgerline.llm.fake import CANNED_EXTRACTION, FakeClient
 from ledgerline.pipeline import process_document
+from tests.documents import SITARA_DOCUMENT
+from tests.documents import document as document_text
 
 REPO = Path(__file__).resolve().parents[2]
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def recorded(doc: str) -> list[str]:
-    return [(FIXTURES / f"opus55_{doc}_call{n}_{kind}.txt").read_text(encoding="utf-8")
-            for n, kind in ((1, "extract"), (2, "verify"))]
+    """The model's recorded extraction for the document. Ledgerline now makes one call per document, so only the
+    extraction response is used; the recorded verification responses remain in fixtures/ as recorded evidence."""
+    return [(FIXTURES / f"opus55_{doc}_call1_extract.txt").read_text(encoding="utf-8")]
 
 
 def document(doc: str) -> str:
@@ -45,8 +48,11 @@ def model_says_clean(**overrides) -> str:
 
 
 def run(conn, ref, monkeypatch, raw_text="INVOICE TEXT", document_id="doc", **overrides) -> dict:
+    """The document prints the bank details the model reports (bank details are read from the document locally)."""
     use(monkeypatch, [model_says_clean(**overrides)] * 2)
-    return process_document(conn, ref, raw_text, document_id)
+    data = json.loads(model_says_clean(**overrides))
+    text = document_text(raw_text, account=data.get("bank_account"), ifsc=data.get("ifsc"))
+    return process_document(conn, ref, text, document_id)
 
 
 # --- The three dev documents, with the model's real responses -------------------------------------------------
@@ -105,7 +111,7 @@ def test_a_duplicate_cannot_be_approved(tmp_path, monkeypatch):
     monkeypatch.setenv("LEDGERLINE_DB", str(tmp_path / "api.db"))
     use(monkeypatch, [model_says_clean(invoice_number="SIS/26-27/0018", invoice_date="2026-04-02")] * 2)
     client = TestClient(app)
-    invoice_id = client.post("/api/invoices", files={"file": ("dup.txt", b"text", "text/plain")}).json()["id"]
+    invoice_id = client.post("/api/invoices", files={"file": ("dup.txt", SITARA_DOCUMENT.encode(), "text/plain")}).json()["id"]
     response = client.post(f"/api/invoices/{invoice_id}/approve", json={"user_id": "kavya", "note": "ok"})
     assert response.status_code == 409
     assert db.connect(str(tmp_path / "api.db")).execute("SELECT COUNT(*) FROM payments").fetchone()[0] == 0
@@ -242,27 +248,27 @@ def test_batch_runs_in_document_id_order_and_flags_the_later_copy(tmp_path, monk
 
 def test_another_organisations_invoice_is_not_a_duplicate(conn, ref, monkeypatch):
     use(monkeypatch, [model_says_clean()] * 4)
-    process_document(conn, ref, "INVOICE TEXT", "other_001", org_id="another-client")
-    assert "duplicate" not in process_document(conn, ref, "INVOICE TEXT", "doc_001")["review_reasons"]
+    process_document(conn, ref, SITARA_DOCUMENT, "other_001", org_id="another-client")
+    assert "duplicate" not in process_document(conn, ref, SITARA_DOCUMENT, "doc_001")["review_reasons"]
 
 
 def test_an_earlier_credit_note_with_the_same_number_is_not_a_duplicate(conn, ref, monkeypatch):
-    use(monkeypatch, [model_says_clean(document_type="credit_note")] * 2 + [model_says_clean()] * 2)
-    process_document(conn, ref, "CREDIT NOTE", "doc_001")
-    assert "duplicate" not in process_document(conn, ref, "INVOICE TEXT", "doc_002")["review_reasons"]
+    use(monkeypatch, [model_says_clean(document_type="credit_note"), model_says_clean()])
+    process_document(conn, ref, SITARA_DOCUMENT, "doc_001")
+    assert "duplicate" not in process_document(conn, ref, SITARA_DOCUMENT, "doc_002")["review_reasons"]
 
 
 def test_an_earlier_processing_error_record_matches_nothing(conn, ref, monkeypatch):
-    use(monkeypatch, ["not json"] * 2 + [model_says_clean()] * 2)
+    use(monkeypatch, ["not json", model_says_clean()])
     process_document(conn, ref, "UNREADABLE", "doc_001")
-    assert "duplicate" not in process_document(conn, ref, "INVOICE TEXT", "doc_002")["review_reasons"]
+    assert "duplicate" not in process_document(conn, ref, SITARA_DOCUMENT, "doc_002")["review_reasons"]
 
 
 def test_same_number_from_a_different_supplier_is_not_a_duplicate(conn, ref, monkeypatch):
     use(monkeypatch, [model_says_clean(supplier_name="Konkan Tooling Pvt. Ltd.",
-                                       supplier_gstin="27AAACK9034R1ZX")] * 2 + [model_says_clean()] * 2)
-    process_document(conn, ref, "KONKAN", "doc_001")
-    assert "duplicate" not in process_document(conn, ref, "SITARA", "doc_002")["review_reasons"]
+                                       supplier_gstin="27AAACK9034R1ZX"), model_says_clean()])
+    process_document(conn, ref, SITARA_DOCUMENT, "doc_001")
+    assert "duplicate" not in process_document(conn, ref, SITARA_DOCUMENT, "doc_002")["review_reasons"]
 
 
 # --- Money at the boundaries, exact to the paisa -------------------------------------------------------------------

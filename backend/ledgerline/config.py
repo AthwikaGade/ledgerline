@@ -17,6 +17,8 @@ USD_TO_INR = 88.0  # finance's planning rate
 class Settings:
     llm_provider: str
     llm_model: str
+    llm_escalation_provider: str | None
+    llm_escalation_model: str | None
     anthropic_api_key: str | None
     openai_base_url: str
     openai_api_key: str | None
@@ -29,6 +31,8 @@ def get_settings() -> Settings:
     return Settings(
         llm_provider=os.getenv("LLM_PROVIDER", "anthropic"),
         llm_model=os.getenv("LLM_MODEL", "claude-opus-5-5"),
+        llm_escalation_provider=os.getenv("LLM_ESCALATION_PROVIDER") or None,
+        llm_escalation_model=os.getenv("LLM_ESCALATION_MODEL") or None,
         anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
         openai_base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
         openai_api_key=os.getenv("OPENAI_API_KEY"),

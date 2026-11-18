@@ -3,15 +3,16 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from dataclasses import asdict
+from dataclasses import asdict, dataclass, field
 
-from . import db
+from . import db, extraction
+from .bank import digits, find_bank_details, still_masked
 from .extraction import ExtractionError, extract
 from .llm.pricing import cost_usd
 from .models import Invoice, LineItem
 from .parsing import parse_amount, parse_date
 from .reference import ReferenceData
-from .validation import find_vendor, run_checks, vendor_prints_month_first
+from .validation import REASON_ORDER, find_vendor, run_checks, vendor_prints_month_first
 from .validation import required_approvals as policy_approvals
 
 # Without these the policy cannot be applied (the duplicate rule needs number and date, approvals and the totals
@@ -26,6 +27,9 @@ def require_critical_fields(data: dict) -> None:
         raise ValueError(f"extraction is missing critical fields: {', '.join(missing)}")
     if data["document_type"] not in DOCUMENT_TYPES:
         raise ValueError(f"unknown document_type {data['document_type']!r}")
+    masked = [f for f in CRITICAL_FIELDS if still_masked(data.get(f))]
+    if masked:  # a masked number the model did not copy back exactly cannot be trusted as a value
+        raise ValueError(f"masked numbers could not be restored in: {', '.join(masked)}")
 
 
 def normalize(data: dict, month_first: bool = False) -> Invoice:
@@ -66,6 +70,71 @@ def _unknown_invoice() -> Invoice:
                    round_off=None, total=None, bank_account=None, ifsc=None, po_number=None, notes=None)
 
 
+def apply_local_bank_details(inv: Invoice, raw_text: str, model_account: str | None) -> list[str]:
+    """Bank details come from the original document, read locally (the model only saw masked numbers).
+    Returns the reasons they could not be verified; an unverified account is treated as changed (review)."""
+    local = find_bank_details(raw_text)
+    unverified = []
+    inv.bank_account = local.accounts[0] if local.accounts else None
+    if len(local.accounts) > 1:
+        unverified.append(f"{len(local.accounts)} different account numbers appear on the document")
+    if not local.accounts and digits(model_account):
+        unverified.append("the model reported a bank account that could not be read from the document")
+    if local.ifscs:
+        inv.ifsc = local.ifscs[0]
+        if len(local.ifscs) > 1:
+            unverified.append(f"{len(local.ifscs)} different IFSC codes appear on the document")
+    elif inv.ifsc:
+        inv.ifsc = inv.ifsc.strip().upper()
+    return unverified
+
+
+@dataclass
+class Attempt:
+    """One model's extraction of a document, checked deterministically."""
+
+    responses: list = field(default_factory=list)
+    inv: Invoice | None = None
+    reasons: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    error: str | None = None
+
+
+def _attempt(conn: sqlite3.Connection, ref: ReferenceData, raw_text: str, org_id: str, client) -> Attempt:
+    try:
+        data, responses = extract(raw_text, ref, client=client)
+    except ExtractionError as exc:
+        return Attempt(responses=exc.responses, error=str(exc))
+    try:
+        require_critical_fields(data)
+        # Identify the vendor before reading the date: US vendors print month first, Indian vendors day first.
+        vendor = find_vendor(ref, data.get("supplier_gstin"), data.get("supplier_name"), data.get("currency"))
+        inv = normalize(data, month_first=vendor_prints_month_first(vendor))
+        unverified = apply_local_bank_details(inv, raw_text, data.get("bank_account"))
+        reasons = run_checks(conn, ref, inv, raw_text=raw_text, org_id=org_id)
+        if unverified and vendor:
+            reasons = sorted({*reasons, "bank_details_changed"}, key=REASON_ORDER.index)
+        # The model's own routing opinion, if it gave one, is kept for the reviewer but never decides anything.
+        warnings = [f"bank details not verified: {u}" for u in unverified]
+        if "requires_review" in data or "review_reasons" in data:
+            warnings.append(f"advisory only, not used for routing: the model suggested requires_review="
+                            f"{data.get('requires_review')!r}, review_reasons={data.get('review_reasons')!r}")
+        return Attempt(responses=responses, inv=inv, reasons=reasons, warnings=warnings)
+    except Exception as exc:  # noqa: BLE001 - any failure here must become processing_error, never a dropped doc
+        return Attempt(responses=responses, error=f"{type(exc).__name__}: {exc}")
+
+
+# Validation failures that may be extraction errors, so a stronger model is asked to read the document again.
+ESCALATE_ON_REASONS = {"totals_mismatch", "gstin_invalid"}
+
+
+def _escalation_trigger(attempt: Attempt) -> str | None:
+    if attempt.error is not None:
+        return f"primary extraction failed ({attempt.error})"
+    hit = sorted(ESCALATE_ON_REASONS & set(attempt.reasons))
+    return f"primary extraction failed validation ({', '.join(hit)})" if hit else None
+
+
 def process_document(
     conn: sqlite3.Connection,
     ref: ReferenceData,
@@ -74,31 +143,32 @@ def process_document(
     org_id: str = "meridian",
     filename: str | None = None,
 ) -> dict:
-    responses: list = []
-    error = None
-    try:
-        data, responses = extract(raw_text, ref)
-        require_critical_fields(data)
-        # Identify the vendor before reading the date: US vendors print month first, Indian vendors day first.
-        vendor = find_vendor(ref, data.get("supplier_gstin"), data.get("supplier_name"), data.get("currency"))
-        inv = normalize(data, month_first=vendor_prints_month_first(vendor))
-        review_reasons = run_checks(conn, ref, inv, raw_text=raw_text, org_id=org_id)
-        # The model's own routing opinion is kept for the reviewer but never decides anything.
-        warnings = [(f"advisory only, not used for routing: the model suggested requires_review="
-                     f"{data.get('requires_review')!r}, review_reasons={data.get('review_reasons')!r}")]
-    except ExtractionError as exc:
-        responses, error = exc.responses, str(exc)
-    except Exception as exc:  # noqa: BLE001 - any failure here must become processing_error, never a dropped doc
-        error = f"{type(exc).__name__}: {exc}"
+    attempts = [_attempt(conn, ref, raw_text, org_id, client=None)]  # primary model (LLM_MODEL)
+    trigger = _escalation_trigger(attempts[0])
+    escalation_client = extraction.get_escalation_client() if trigger else None
+    if escalation_client is not None:
+        attempts.append(_attempt(conn, ref, raw_text, org_id, client=escalation_client))
+    responses = [r for a in attempts for r in a.responses]
+    good = [a for a in attempts if a.error is None]
 
-    if error is not None:
+    if not good:
         # AP_POLICY 3: processing_error always goes to review and is never dropped. Nothing is invented: every
         # extracted field stays unknown (NULL). required_approvals is a provisional 1; it does not make the
         # document payable, because the approve endpoint refuses documents with an unresolved processing_error.
-        inv, data, warnings = _unknown_invoice(), {}, [f"processing_error: {error}"]
+        inv, warnings = _unknown_invoice(), [f"processing_error: {a.error}" for a in attempts]
         needs_review, review_reasons, required_approvals = True, ["processing_error"], 1
         status = "needs_review"
     else:
+        # Field values come from the last successful read (the escalated one, if any). Review reasons are the union
+        # over every successful read: escalation can add a second opinion but never clear a deterministic reason.
+        final = good[-1]
+        inv, warnings = final.inv, list(final.warnings)
+        review_reasons = sorted({r for a in good for r in a.reasons}, key=REASON_ORDER.index)
+        if len(attempts) > 1:
+            escalated = attempts[-1]
+            model = escalated.responses[-1].model if escalated.responses else "the escalation model"
+            outcome = "succeeded" if escalated.error is None else f"failed ({escalated.error})"
+            warnings.append(f"escalated to {model} because the {trigger}; escalation {outcome}")
         # Routing is decided by code from AP_POLICY sections 3 and 4 (ARCHITECTURE.md decision 1).
         needs_review = bool(review_reasons)
         required_approvals = policy_approvals(inv)

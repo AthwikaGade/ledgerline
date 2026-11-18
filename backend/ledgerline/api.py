@@ -17,6 +17,7 @@ from pydantic import BaseModel, field_validator
 
 from . import db
 from .config import USD_TO_INR, get_settings
+from .llm.pricing import PRICES_CHECKED_ON, cost_usd
 from .pipeline import process_document
 from .reference import load_reference
 
@@ -173,15 +174,30 @@ def reject_invoice(invoice_id: int, body: DecisionRequest, org_id: str = Depends
 
 @app.get("/api/stats")
 def stats(org_id: str = Depends(get_org), conn=Depends(get_conn)):
-    """Feeds the cost dashboard."""
-    row = conn.execute(
-        "SELECT COUNT(DISTINCT c.invoice_id) AS invoices, COALESCE(SUM(c.cost_usd), 0) AS cost_usd "
-        "FROM llm_calls c JOIN invoices i ON i.id = c.invoice_id WHERE i.org_id = ?",
-        (org_id,),
-    ).fetchone()
-    total_inr = row["cost_usd"] * USD_TO_INR
+    """Feeds the cost dashboard. Costs are ESTIMATES recomputed from recorded token usage at the current verified
+    prices (so rows stored with the starter's wrong prices are corrected); the provider's invoice is the actual bill."""
+    invoices = conn.execute(
+        "SELECT COUNT(DISTINCT c.invoice_id) FROM llm_calls c JOIN invoices i ON i.id = c.invoice_id "
+        "WHERE i.org_id = ?", (org_id,)).fetchone()[0]
+    by_model = conn.execute(
+        "SELECT c.model, COUNT(*) AS calls, COALESCE(SUM(c.input_tokens), 0) AS input_tokens, "
+        "COALESCE(SUM(c.output_tokens), 0) AS output_tokens "
+        "FROM llm_calls c JOIN invoices i ON i.id = c.invoice_id WHERE i.org_id = ? GROUP BY c.model",
+        (org_id,)).fetchall()
+    total_usd, unpriced = 0.0, 0
+    for row in by_model:
+        usd = cost_usd(row["model"], row["input_tokens"], row["output_tokens"])
+        if usd is None:
+            unpriced += row["calls"]
+        else:
+            total_usd += usd
+    total_inr = total_usd * USD_TO_INR
     return {
-        "invoices_processed": row["invoices"],
+        "invoices_processed": invoices,
+        "llm_calls": sum(row["calls"] for row in by_model),
         "llm_cost_inr": round(total_inr, 2),
-        "avg_llm_cost_per_invoice_inr": round(total_inr / row["invoices"], 4) if row["invoices"] else 0.0,
+        "avg_llm_cost_per_invoice_inr": round(total_inr / invoices, 4) if invoices else 0.0,
+        "unpriced_llm_calls": unpriced,
+        "cost_basis": (f"Estimated from recorded token usage at list prices checked {PRICES_CHECKED_ON}, converted at "
+                       f"Rs {USD_TO_INR:g}/USD. Not the provider's invoice; calls to unpriced models are excluded."),
     }

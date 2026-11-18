@@ -1,0 +1,316 @@
+# Fix 5 + Fix 6 tests against committed code 53e4fb4 (no privacy/cost changes yet), 2026-11-18T19:42Z. Paths replaced with placeholders.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 46 items
+
+tests\test_privacy.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.              [ 80%]
+tests\test_cost_reporting.py FFFFFFFFF                                   [100%]
+
+================================== FAILURES ===================================
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 38 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 38 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 38 account-like numbers sent, e.g. ...0751
+E   AssertionError: 39 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 39 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 39 account-like numbers sent, e.g. ...0751
+E   AssertionError: 39 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 39 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 39 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 38 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 38 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 38 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 38 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 38 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 38 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 38 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 38 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 38 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 39 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 39 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 39 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 38 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 38 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 38 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: 37 account-like numbers sent, e.g. ...0751
+    assert ['…0007...9623033', ...] == []
+      
+      Left contains 37 more items, first extra item: '…0751'
+      Use -v to get more diff
+<repo>\backend\tests\test_privacy.py:64: AssertionError: 37 account-like numbers sent, e.g. ...0751
+E   AssertionError: assert 'vendor_id,legal_name' not in 'You are Led...e 1 of 1\n\n'
+      
+      'vendor_id,legal_name' is contained here:
+        ER (CSV):
+        vendor_id,legal_name,gstin,state_code,country,onboarded_on,bank_name,bank_account,ifsc,contact_email
+      ? ++++++++++++++++++++
+        V0001,Ambica Engineering & Co.,07ABCFA3936Y1ZM,07,IN,2019-08-05,Zephyr Bank,…4087,ZEPH0001019,
+        V0002,Bharat Abrasives & Chemicals Pvt. Ltd.,29AAGCB1178L1ZB,29,IN,2024-01-20,Orbit Bank,…7120,ORBK0001109,sales@bharatabrasives.example...
+      
+      ...Full output truncated, use '-vv' to show
+<repo>\backend\tests\test_privacy.py:70: AssertionError: assert 'vendor_id,legal_name' not in 'You are Led...e 1 of 1\n\n'
+E   assert not True
+     +  where True = any(<generator object test_bank_change_detection_still_works_on_masked_numbers.<locals>.<genexpr> at 0x000002A2924AA9B0>)
+<repo>\backend\tests\test_privacy.py:79: assert not True
+E   assert not True
+     +  where True = any(<generator object test_bank_change_detection_still_works_on_masked_numbers.<locals>.<genexpr> at 0x000002A292455BE0>)
+<repo>\backend\tests\test_privacy.py:79: assert not True
+E   assert not True
+     +  where True = any(<generator object test_bank_change_detection_still_works_on_masked_numbers.<locals>.<genexpr> at 0x000002A292479B10>)
+<repo>\backend\tests\test_privacy.py:79: assert not True
+E   assert not True
+     +  where True = any(<generator object test_bank_change_detection_still_works_on_masked_numbers.<locals>.<genexpr> at 0x000002A292456E90>)
+<repo>\backend\tests\test_privacy.py:79: assert not True
+E   assert not True
+     +  where True = any(<generator object test_the_full_number_is_kept_locally_for_audit_and_output.<locals>.<genexpr> at 0x000002A2924C5BE0>)
+---------------------------- Captured stdout call -----------------------------
+wrote 1/1 predictions to <tmp>\test_the_full_number_is_kept_l0\out.jsonl
+<repo>\backend\tests\test_privacy.py:97: assert not True
+E   assert 0.004 == 4.0 ± 4.0e-06
+      
+      comparison failed
+      Obtained: 0.004
+      Expected: 4.0 ± 4.0e-06
+<repo>\backend\tests\test_cost_reporting.py:27: assert 0.004 == 4.0 ± 4.0e-06
+E   assert 0.002 == 2.0 ± 2.0e-06
+      
+      comparison failed
+      Obtained: 0.002
+      Expected: 2.0 ± 2.0e-06
+<repo>\backend\tests\test_cost_reporting.py:27: assert 0.002 == 2.0 ± 2.0e-06
+E   assert 0.0001 == 0.1 ± 1.0e-07
+      
+      comparison failed
+      Obtained: 0.0001
+      Expected: 0.1 ± 1.0e-07
+<repo>\backend\tests\test_cost_reporting.py:27: assert 0.0001 == 0.1 ± 1.0e-07
+E   assert 0.00229242 == 2.2924 ± 1.0e-04
+      
+      comparison failed
+      Obtained: 0.00229242
+      Expected: 2.2924 ± 1.0e-04
+<repo>\backend\tests\test_cost_reporting.py:34: assert 0.00229242 == 2.2924 ± 1.0e-04
+E   assert 7.630000000000001e-05 == 0.0763 ± 1.0e-05
+      
+      comparison failed
+      Obtained: 7.630000000000001e-05
+      Expected: 0.0763 ± 1.0e-05
+<repo>\backend\tests\test_cost_reporting.py:39: assert 7.630000000000001e-05 == 0.0763 ± 1.0e-05
+E   AssertionError: assert 0.0 is None
+     +  where 0.0 = cost_usd('some-future-model', 1000, 1000)
+<repo>\backend\tests\test_cost_reporting.py:43: AssertionError: assert 0.0 is None
+E   assert 0.0134 == 13.4288 ± 0.01
+      
+      comparison failed
+      Obtained: 0.0134
+      Expected: 13.4288 ± 0.01
+<repo>\backend\tests\test_cost_reporting.py:62: assert 0.0134 == 13.4288 ± 0.01
+E   assert 0.04 == 40.2864 ± 0.05
+      
+      comparison failed
+      Obtained: 0.04
+      Expected: 40.2864 ± 0.05
+<repo>\backend\tests\test_cost_reporting.py:72: assert 0.04 == 40.2864 ± 0.05
+E   KeyError: 'unpriced_llm_calls'
+<repo>\backend\tests\test_cost_reporting.py:84: KeyError: 'unpriced_llm_calls'
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_privacy.py::test_a_masked_number_that_matches_nothing_on_the_document_goes_to_review
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_001]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_002]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_003]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_004]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_005]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_006]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_007]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_008]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_009]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_010]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_011]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_012]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_013]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_014]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_015]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_016]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_017]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_018]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_019]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_020]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_021]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_022]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_023]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_024]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_01]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_02]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_03]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_04]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_05]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_06]
+FAILED tests/test_privacy.py::test_the_vendor_master_is_not_sent - AssertionE...
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_001]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_005]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_006]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_024]
+FAILED tests/test_privacy.py::test_the_full_number_is_kept_locally_for_audit_and_output
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-opus-5-5-4.0-20.0]
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-sonnet-5-5-2.0-10.0]
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-haiku-5-5-0.1-0.5]
+FAILED tests/test_cost_reporting.py::test_recorded_baseline_usage_reproduces_what_was_billed
+FAILED tests/test_cost_reporting.py::test_one_recorded_opus_call_costs_what_the_provider_charges
+FAILED tests/test_cost_reporting.py::test_an_unknown_model_is_reported_as_unpriced_not_free
+FAILED tests/test_cost_reporting.py::test_per_document_usage_reports_the_real_cost
+FAILED tests/test_cost_reporting.py::test_the_dashboard_reports_the_real_cost
+FAILED tests/test_cost_reporting.py::test_the_dashboard_says_when_some_calls_could_not_be_priced
+======================== 45 failed, 1 passed in 2.33s =========================

@@ -1,0 +1,417 @@
+# FINAL Fix 5/6 + Part 4B behaviour tests against committed code 53e4fb4, in a throwaway worktree, 2026-11-18T20:07Z.
+# Unit tests of the new ledgerline/bank.py module are deselected: that module does not exist at this commit, and the
+# editable install's import hook would otherwise load it from the working tree. The first run is kept in fix5_6_tests_before.txt.
+# Paths replaced; account digits masked.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 164 items / 91 deselected / 73 selected
+
+tests\test_privacy.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF [ 68%]
+F.F                                                                      [ 72%]
+tests\test_cost_reporting.py FFFFFFFFF                                   [ 84%]
+tests\test_escalation.py FFFFFFFFFFF                                     [100%]
+
+================================== FAILURES ===================================
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE65540>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE64580>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A4C4D60>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE651C0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE67060>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE67920>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE65FC0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BED4200>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE64C80>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE65540>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A4C4D60>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE64AC0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BED4820>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE3FCA0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE644A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BED52A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE64820>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE666C0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A35A0A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE644A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE64C80>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A4C4D60>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE652A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE66EA0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A4C4D60>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE66880>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE66CE0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE67220>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE66420>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A35A0A0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: assert 'vendor_id,legal_name' not in 'You are Led...e 1 of 1\n\n'
+      
+      'vendor_id,legal_name' is contained here:
+        ER (CSV):
+        vendor_id,legal_name,gstin,state_code,country,onboarded_on,bank_name,bank_account,ifsc,contact_email
+      ? ++++++++++++++++++++
+        V0001,Ambica Engineering & Co.,07ABCFA3936Y1ZM,07,IN,2019-08-05,Zephyr Bank,…4087,ZEPH0001019,
+        V0002,Bharat Abrasives & Chemicals Pvt. Ltd.,29AAGCB1178L1ZB,29,IN,2024-01-20,Orbit Bank,…7120,ORBK0001109,sales@bharatabrasives.example...
+      
+      ...Full output truncated, use '-vv' to show
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:96: AssertionError: assert 'vendor_id,legal_name' not in 'You are Led...e 1 of 1\n\n'
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BEB0820>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE3FBC0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BE665E0>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5BEB0900>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: bank account ...1420 was sent
+    assert not True
+     +  where True = any(<generator object assert_no_account_in.<locals>.<genexpr> at 0x0000016D5A4C4D60>)
+---------------------------- Captured stdout call -----------------------------
+wrote 1/1 predictions to <tmp>\test_the_full_number_is_kept_l0\out.jsonl
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:80: AssertionError: bank account ...1420 was sent
+E   AssertionError: assert 'XXXXXXXXXX9999' == '…5678'
+      
+      - …5678
+      + XXXXXXXXXX9999
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:143: AssertionError: assert 'XXXXXXXXXX9999' == '…5678'
+E   assert False
+     +  where False = any(<generator object test_an_account_the_model_saw_but_we_cannot_read_locally_goes_to_review.<locals>.<genexpr> at 0x0000016D5BE76670>)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:153: assert False
+E   AssertionError: assert 'bank_details_changed' in []
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:160: AssertionError: assert 'bank_details_changed' in []
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AssertionError: assert None == '…0001'
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:262: AssertionError: assert None == '…0001'
+E   AssertionError: assert [] == ['processing_error']
+      
+      Right contains one more item: 'processing_error'
+      Use -v to get more diff
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_privacy.py:278: AssertionError: assert [] == ['processing_error']
+E   assert 0.004 == 4.0 ± 4.0e-06
+      
+      comparison failed
+      Obtained: 0.004
+      Expected: 4.0 ± 4.0e-06
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:27: assert 0.004 == 4.0 ± 4.0e-06
+E   assert 0.002 == 2.0 ± 2.0e-06
+      
+      comparison failed
+      Obtained: 0.002
+      Expected: 2.0 ± 2.0e-06
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:27: assert 0.002 == 2.0 ± 2.0e-06
+E   assert 0.0001 == 0.1 ± 1.0e-07
+      
+      comparison failed
+      Obtained: 0.0001
+      Expected: 0.1 ± 1.0e-07
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:27: assert 0.0001 == 0.1 ± 1.0e-07
+E   assert 0.00229242 == 2.2924 ± 1.0e-04
+      
+      comparison failed
+      Obtained: 0.00229242
+      Expected: 2.2924 ± 1.0e-04
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:34: assert 0.00229242 == 2.2924 ± 1.0e-04
+E   assert 7.630000000000001e-05 == 0.0763 ± 1.0e-05
+      
+      comparison failed
+      Obtained: 7.630000000000001e-05
+      Expected: 0.0763 ± 1.0e-05
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:39: assert 7.630000000000001e-05 == 0.0763 ± 1.0e-05
+E   AssertionError: assert 0.0 is None
+     +  where 0.0 = cost_usd('some-future-model', 1000, 1000)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:43: AssertionError: assert 0.0 is None
+E   assert 0.0134 == 6.7144 ± 0.01
+      
+      comparison failed
+      Obtained: 0.0134
+      Expected: 6.7144 ± 0.01
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:62: assert 0.0134 == 6.7144 ± 0.01
+E   assert 0.04 == 20.1432 ± 0.05
+      
+      comparison failed
+      Obtained: 0.04
+      Expected: 20.1432 ± 0.05
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:72: assert 0.04 == 20.1432 ± 0.05
+E   KeyError: 'unpriced_llm_calls'
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_cost_reporting.py:84: KeyError: 'unpriced_llm_calls'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   AttributeError: module 'ledgerline.extraction' has no attribute 'get_escalation_client'
+
+The above exception was the direct cause of the following exception:
+E   AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+<repo>\backend\.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError: 'module' object at ledgerline.extraction has no attribute 'get_escalation_client'
+E   ImportError: cannot import name 'get_escalation_client' from 'ledgerline.llm' (<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\ledgerline\llm\__init__.py)
+<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\tests\test_escalation.py:120: ImportError: cannot import name 'get_escalation_client' from 'ledgerline.llm' (<tmp>\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\wt56\backend\ledgerline\llm\__init__.py)
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_privacy.py::test_dev_014_invoice_number_round_trips_through_its_token
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_001]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_002]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_003]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_004]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_005]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_006]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_007]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_008]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_009]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_010]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_011]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_012]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_013]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_014]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_015]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_016]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_017]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_018]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_019]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_020]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_021]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_022]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_023]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[dev_024]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_01]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_02]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_03]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_04]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_05]
+FAILED tests/test_privacy.py::test_no_full_account_number_is_sent_to_the_llm[disp_06]
+FAILED tests/test_privacy.py::test_the_vendor_master_is_not_sent - AssertionE...
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_001]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_005]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_006]
+FAILED tests/test_privacy.py::test_bank_change_detection_still_works_on_masked_numbers[dev_024]
+FAILED tests/test_privacy.py::test_the_full_number_is_kept_locally_for_audit_and_output
+FAILED tests/test_privacy.py::test_the_model_cannot_vouch_for_bank_details - ...
+FAILED tests/test_privacy.py::test_an_account_the_model_saw_but_we_cannot_read_locally_goes_to_review
+FAILED tests/test_privacy.py::test_two_different_accounts_on_one_document_go_to_review
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Invoice Ref: …0000]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[PO No: …0000]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Our Ref: …4411 (use for NEFT)]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Credit Note No. 5020 0077 7700 00]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Invoice No: INV-…5546]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Order # 4455-6677-8899-00]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Remit to …5678 at Zephyr Bank]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Call …3210 for queries]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[A/C NO 5020 0012 3456 78]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account["AccDet": "…5432",]
+FAILED tests/test_privacy.py::test_neither_the_primary_nor_the_escalation_model_sees_a_misleadingly_labelled_account[Beneficiary AC91827364554 (Tal Bank)]
+FAILED tests/test_privacy.py::test_an_all_digit_invoice_number_is_masked_in_the_prompt_and_restored_exactly
+FAILED tests/test_privacy.py::test_an_invoice_number_whose_token_was_not_copied_back_is_not_trusted
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-opus-5-5-4.0-20.0]
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-sonnet-5-5-2.0-10.0]
+FAILED tests/test_cost_reporting.py::test_prices_are_usd_per_million_tokens[claude-haiku-5-5-0.1-0.5]
+FAILED tests/test_cost_reporting.py::test_recorded_baseline_usage_reproduces_what_was_billed
+FAILED tests/test_cost_reporting.py::test_one_recorded_opus_call_costs_what_the_provider_charges
+FAILED tests/test_cost_reporting.py::test_an_unknown_model_is_reported_as_unpriced_not_free
+FAILED tests/test_cost_reporting.py::test_per_document_usage_reports_the_real_cost
+FAILED tests/test_cost_reporting.py::test_the_dashboard_reports_the_real_cost
+FAILED tests/test_cost_reporting.py::test_the_dashboard_says_when_some_calls_could_not_be_priced
+FAILED tests/test_escalation.py::test_no_escalation_when_the_primary_extraction_passes
+FAILED tests/test_escalation.py::test_unusable_primary_reply_is_escalated - A...
+FAILED tests/test_escalation.py::test_primary_missing_a_critical_field_is_escalated
+FAILED tests/test_escalation.py::test_provider_outage_falls_back_to_the_other_model
+FAILED tests/test_escalation.py::test_when_every_model_fails_it_is_a_processing_error
+FAILED tests/test_escalation.py::test_without_escalation_configured_a_failure_is_a_processing_error
+FAILED tests/test_escalation.py::test_escalation_cannot_clear_a_deterministic_review_reason
+FAILED tests/test_escalation.py::test_reasons_found_by_either_reading_are_all_kept
+FAILED tests/test_escalation.py::test_the_escalation_prompt_is_masked_too - A...
+FAILED tests/test_escalation.py::test_each_call_is_costed_at_its_own_model_price
+FAILED tests/test_escalation.py::test_escalation_is_configured_by_environment
+================= 72 failed, 1 passed, 91 deselected in 3.34s =================

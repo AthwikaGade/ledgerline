@@ -1,13 +1,14 @@
 from ledgerline.pipeline import process_document
+from tests.documents import SITARA_DOCUMENT
 
 
 def test_process_document_persists_invoice(conn, ref, fake_llm):
-    invoice = process_document(conn, ref, "INVOICE TEXT", "doc_001", filename="doc_001.txt")
+    invoice = process_document(conn, ref, SITARA_DOCUMENT, "doc_001", filename="doc_001.txt")
     assert invoice["supplier_name"] == "Sitara Industrial Supplies Pvt. Ltd."
     assert invoice["total"] == 23458.0
     assert invoice["invoice_date"] == "2026-04-25"
     assert invoice["status"] == "ready_for_approval"
-    assert invoice["usage"]["llm_calls"] == 2
+    assert invoice["usage"]["llm_calls"] == 1  # one extraction call (the starter's self-verification pass is gone)
 
 
 def test_document_text_reaches_the_model(conn, ref, fake_llm):
@@ -16,5 +17,5 @@ def test_document_text_reaches_the_model(conn, ref, fake_llm):
 
 
 def test_line_items_are_stored(conn, ref, fake_llm):
-    invoice = process_document(conn, ref, "INVOICE TEXT", "doc_003")
+    invoice = process_document(conn, ref, SITARA_DOCUMENT, "doc_003")
     assert [item["amount"] for item in invoice["line_items"]] == [17400.0, 2480.0]

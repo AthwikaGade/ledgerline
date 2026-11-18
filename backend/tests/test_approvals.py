@@ -15,6 +15,7 @@ from fastapi.testclient import TestClient
 from ledgerline import db
 from ledgerline.api import DecisionRequest, app, approve_invoice
 from ledgerline.llm.fake import CANNED_EXTRACTION, FakeClient
+from tests.documents import document
 
 
 @pytest.fixture
@@ -26,7 +27,7 @@ def api(tmp_path, monkeypatch):
     def upload(number="0101", **overrides):
         data = dict(CANNED_EXTRACTION, invoice_date="2026-04-25", invoice_number=f"SIS/26-27/{number}", **overrides)
         monkeypatch.setattr("ledgerline.extraction.get_client", lambda: FakeClient([json.dumps(data)] * 2))
-        response = client.post("/api/invoices", files={"file": (f"{number}.txt", number.encode(), "text/plain")})
+        response = client.post("/api/invoices", files={"file": (f"{number}.txt", document(number, data.get("bank_account"), data.get("ifsc")).encode(), "text/plain")})
         return response.json()
 
     client.upload = upload
