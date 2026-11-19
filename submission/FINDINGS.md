@@ -16,7 +16,7 @@
 - **What's wrong:** The original approval process did not safely handle repeated clicks or simultaneous requests.
 - **Impact:** A duplicate payment could be created without anyone intending to pay twice.
 - **How I found it:** I used Claude Code to test repeated and simultaneous approval requests against SQLite.
-- **Evidence from my run:** Before the fix, a double-click created 2 payment instructions. Eight simultaneous requests created 8 (`submission/evidence/fix4_repro_before.txt`).
+- **Evidence from my run:** I used a test invoice (₹23,458) uploaded through the real API, with the starter's payment logic unchanged. Before the fix, a double-click created 2 payment instructions. Eight simultaneous requests created 8 (`submission/evidence/fix4_repro_before.txt`).
 - **What it could cost Meridian:** For an invoice worth an assumed ₹40,000, one duplicate payment could put another ₹40,000 at risk. At 30 affected invoices per month, that would be ₹12 lakh of potential exposure. This is an illustration, not an actual loss.
 - **Fix:** Added database constraints, transactions and checks against repeated payments. Commit `53e4fb4`.
 - **Regression test:** `test_approvals.py::test_double_click_records_one_approval_and_one_payment`, `test_approvals.py::test_concurrent_approvals_create_exactly_one_payment`, `test_approvals.py::test_another_approver_on_an_approved_invoice_creates_no_second_payment` and `test_approvals.py::test_the_database_itself_refuses_a_second_payment_instruction`.

@@ -19,7 +19,7 @@ Some final results used saved model responses with updated code instead of makin
 
 The starter claimed **94.2% accuracy**, but it only checked whether 12 invoice fields were extracted correctly. It did not check payment safety.
 
-When I ran the original starter, it failed to process all 24 development invoices because it couldn't read the model's JSON responses.
+When I ran the original starter, it failed to process all 24 development invoices because it couldn't read the model's JSON responses. Counting failed documents as failures, the unchanged starter scores **0%** (0 of 288 fields), because it produced no predictions.
 
 After fixing only that reading problem for testing, I got **99.7% field accuracy**, but the system still missed 2 duplicate invoices.
 
@@ -104,6 +104,8 @@ I would let Meridian use Ledgerline for invoice extraction and checks in a **two
 Before using it for real approvals, I would require proper login, user roles, HTTPS and more testing. The current system already blocks production approvals because authentication is missing.
 
 I would also monitor missed reviews, unnecessary reviews, processing errors and AI costs. Finance should approve the two optional policy checks before enabling them.
+
+A missed review can cost the whole invoice, while an unnecessary review costs about ₹85 of AP time. Preventing one duplicate payment of an assumed ₹40,000 would pay for about 470 unnecessary reviews (an illustration, not a measured figure). At 3,000 documents a month, even sending 20% to review would cost about ₹51,000 of AP time. So I would accept some extra reviews to keep missed reviews at zero.
 
 If the trial misses an important duplicate, bank change or invalid GSTIN, I would delay the rollout.
 
