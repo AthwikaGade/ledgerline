@@ -1,5 +1,7 @@
 # 00 - First hour (setup, reading, planning, FIRST_HOUR.md) - Claude Code
 
+_Privacy: my Windows username, personal local paths, GitHub username and name were replaced with neutral placeholders (`<home>`, `<user>`, `<claude-project-dir>`, `<github-user>`, `<name>`) on 2026-11-18. The conversation, prompts, responses, timestamps and findings are otherwise unchanged._
+
 _Exported from the Claude Code session log. Thinking blocks are omitted, tool output is truncated, and personal email addresses and API keys are redacted._
 
 ---
@@ -7,7 +9,7 @@ _Exported from the Claude Code session log. Thinking blocks are omitted, tool ou
 
 > _(pasted text)_
 
-Hi Athwika,
+Hi <name>,
 
 As a next step in the interview process, here's an assignment we'd like you to take up. 
 
@@ -167,18 +169,18 @@ prep the checklist of what we are doing , how we are doing and why particularly 
 **Tool call: `Bash`**: List assessment folder and check git repo root
 
 ```
-cd "c:/Users/athwi/OneDrive/Folder/OneDrive/Desktop/Assessment" && ls -la && git rev-parse --show-toplevel 2>/dev/null; git remote -v 2>/dev/null
+cd "<home>/Desktop/Assessment" && ls -la && git rev-parse --show-toplevel 2>/dev/null; git remote -v 2>/dev/null
 ```
 
 <details><summary>tool output</summary>
 
 ```
 total 32
-drwxr-xr-x 1 athwi 197609 0 Nov 17 15:49 .
-drwxr-xr-x 1 athwi 197609 0 Nov 17 15:49 ..
-C:/Users/athwi
-origin	https://github.com/AthwikaGade/SlamBook.git (fetch)
-origin	https://github.com/AthwikaGade/SlamBook.git (push)
+drwxr-xr-x 1 <user> 197609 0 Nov 17 15:49 .
+drwxr-xr-x 1 <user> 197609 0 Nov 17 15:49 ..
+<home>
+origin	https://github.com/<github-user>/SlamBook.git (fetch)
+origin	https://github.com/<github-user>/SlamBook.git (push)
 ```
 
 </details>
@@ -188,7 +190,7 @@ origin	https://github.com/AthwikaGade/SlamBook.git (push)
 I read both pasted messages carefully. Before the plan, there's one thing to sort out in your setup.
 
 ## ⚠️ Fix this first
-Your `Assessment` folder is empty, and git thinks it belongs to a repo rooted at `C:\Users\athwi` (your whole home folder, with the SlamBook remote). If you commit from there, you could push personal files. **Clone the new Ledgerline repo into its own folder** so it has its own `.git`.
+Your `Assessment` folder is empty, and git thinks it belongs to a repo rooted at `<home>` (your whole home folder, with the SlamBook remote). If you commit from there, you could push personal files. **Clone the new Ledgerline repo into its own folder** so it has its own `.git`.
 
 ---
 
@@ -315,7 +317,7 @@ If `python3 --version` shows something older than 3.11, run `sudo apt install py
 
 ## 4. Configure git and log in to GitHub
 ```bash
-git config --global user.name "Athwika Gade"
+git config --global user.name "<name>"
 git config --global user.email "<the email on your GitHub account>"
 gh auth login            # choose GitHub.com → HTTPS → login with browser
 ```
@@ -407,7 +409,7 @@ You're on the right page. Everything on it is already correct except the name.
 4. **Visibility: Public**, which it already is. Keep it public until Moring replies.
 5. Click **Create repository**.
 
-When it's done, the URL should be **`github.com/AthwikaGade/ledgerline`**. Copy that URL, because you'll need it for the clone step and for your submission email.
+When it's done, the URL should be **`github.com/<github-user>/ledgerline`**. Copy that URL, because you'll need it for the clone step and for your submission email.
 
 Next is **step 2 in my earlier message: installing WSL**. If you already have WSL, open Ubuntu and go to step 3.
 
@@ -426,12 +428,12 @@ is it looking good?
 Yes, it all looks right:
 - **Template:** Moring-ai-hiring/Moring_Hiring_Test
 - **Include all branches:** Off
-- **Owner:** AthwikaGade
+- **Owner:** <github-user>
 - **Name:** `ledgerline` (GitHub shows it's available)
 - **Description:** filled in
 - **Visibility:** Public
 
-Click **Create repository**. It takes a few seconds to copy the files. You should end up at `github.com/AthwikaGade/ledgerline` with the same folders you saw before (`backend`, `data`, `docs`, `frontend`, `submission`…).
+Click **Create repository**. It takes a few seconds to copy the files. You should end up at `github.com/<github-user>/ledgerline` with the same folders you saw before (`backend`, `data`, `docs`, `frontend`, `submission`…).
 
 Then do the WSL setup. To check whether you already have it, open PowerShell and run:
 ```powershell
@@ -457,12 +459,12 @@ In the same PowerShell window, run:
 wsl --install -d Ubuntu
 ```
 - It downloads Ubuntu (a few minutes) and then opens it.
-- It asks for a **UNIX username** (lowercase, e.g. `athwika`) and a **password**. The password won't show while you type. That's normal.
+- It asks for a **UNIX username** (lowercase, e.g. `<name>`) and a **password**. The password won't show while you type. That's normal.
 - If you get an "access denied" or elevation error, close the window. Open PowerShell with **right-click → Run as administrator** and run it again.
 - If it asks you to restart, restart.
 
 ## Check it worked
-When you see a prompt like `athwika@LAPTOP:~$`, you're inside Ubuntu. To confirm, run this in a **new** PowerShell window:
+When you see a prompt like `<name>@LAPTOP:~$`, you're inside Ubuntu. To confirm, run this in a **new** PowerShell window:
 ```powershell
 wsl -l -v
 ```
@@ -504,7 +506,7 @@ The Ubuntu files installed, but the **WSL background service is stuck** (`Catast
    - `--update` gets the latest WSL, which fixes most `E_UNEXPECTED` errors.
    - `--unregister` deletes the half-installed Ubuntu. It's empty, so you lose nothing.
    - `--install` installs a fresh copy.
-3. Create the username (`athwika`) and a password when it asks.
+3. Create the username (`<name>`) and a password when it asks.
 
 **If it still says Catastrophic failure:** restart your laptop, then run `wsl --install -d Ubuntu` again. A restart fully resets the WSL service, and in most cases that alone fixes it.
 
@@ -524,13 +526,13 @@ _[screenshot attached]_
 ### 🤖 Claude  <sub>2026-11-17 22:39 UTC</sub>
 
 That worked. The WSL update fixed it:
-- Your Ubuntu user **`athwi`** was created.
+- Your Ubuntu user **`<user>`** was created.
 - The first password attempt didn't match, but the second time it says `password updated successfully`. Remember that password, because `sudo` will ask for it.
 
 ## Right now
 Press **Enter** on the metrics question. Your `y` is fine; `n` would have been fine too. Ubuntu then shows a prompt like:
 ```
-athwi@<your-pc>:~$
+<user>@<your-pc>:~$
 ```
 That means you're inside Linux.
 
@@ -562,13 +564,13 @@ _[screenshot attached]_
 
 ### 🤖 Claude  <sub>2026-11-17 22:40 UTC</sub>
 
-You're inside Ubuntu now. That green `athwi@AthwikaGade` prompt is Linux.
+You're inside Ubuntu now. That green `<user>@<github-user>` prompt is Linux.
 
 You're currently in `/mnt/c/WINDOWS/system32`, which is a Windows system folder. **Don't work there.** First go to your Linux home folder:
 ```bash
 cd ~
 ```
-The prompt should change to `athwi@AthwikaGade:~$`.
+The prompt should change to `<user>@<github-user>:~$`.
 
 Then run the installs:
 ```bash
@@ -585,7 +587,7 @@ node -v
 If you see **Python 3.12.x** and **Node v20.x**, you're good. 3.12 is above the 3.11 minimum, so you won't need the `PYTHON=` option. Then continue:
 
 ```bash
-git config --global user.name "Athwika Gade"
+git config --global user.name "<name>"
 git config --global user.email "<the email on your GitHub account>"
 gh auth login
 ```
@@ -593,19 +595,19 @@ For `gh auth login`, choose: **GitHub.com → HTTPS → Yes (authenticate Git) �
 
 ```bash
 cd ~
-git clone https://github.com/AthwikaGade/ledgerline.git
+git clone https://github.com/<github-user>/ledgerline.git
 cd ledgerline
 git remote -v
 ls
 ```
-`git remote -v` should show `AthwikaGade/ledgerline`. `ls` should list `backend data docs frontend Makefile README.md submission`. Paste that output and we'll do `.env`, `make setup` and `make test`.
+`git remote -v` should show `<github-user>/ledgerline`. `ls` should list `backend data docs frontend Makefile README.md submission`. Paste that output and we'll do `.env`, `make setup` and `make test`.
 
 ---
 ## 🧑 User  <sub>2026-11-17 22:44 UTC</sub>
 
 > _(pasted text)_
 
-athwi@AthwikaGade:~$ sudo apt update
+<user>@<github-user>:~$ sudo apt update
 [sudo: authenticate] Password:
 Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
 Get:2 http://archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
@@ -856,15 +858,15 @@ Your network is corrupting Ubuntu's downloads, both the hash errors and the bad 
 **Tool call: `PowerShell`**: Clone the user's ledgerline repo into the home folder
 
 ```
-cd C:\Users\athwi; git clone https://github.com/AthwikaGade/ledgerline.git; cd ledgerline; git remote -v; Get-ChildItem -Name
+cd <home>; git clone https://github.com/<github-user>/ledgerline.git; cd ledgerline; git remote -v; Get-ChildItem -Name
 ```
 
 <details><summary>tool output</summary>
 
 ```
 Cloning into 'ledgerline'...
-origin	https://github.com/AthwikaGade/ledgerline.git (fetch)
-origin	https://github.com/AthwikaGade/ledgerline.git (push)
+origin	https://github.com/<github-user>/ledgerline.git (fetch)
+origin	https://github.com/<github-user>/ledgerline.git (push)
 .github
 backend
 data
@@ -875,12 +877,12 @@ submission
 .gitignore
 Makefile
 README.md
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
 
-**Tool call: `Read`**: C:\Users\athwi\ledgerline\Makefile
+**Tool call: `Read`**: <home>\ledgerline\Makefile
 
 <details><summary>tool output</summary>
 
@@ -918,7 +920,7 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 
 </details>
 
-**Tool call: `Read`**: C:\Users\athwi\ledgerline\.env.example
+**Tool call: `Read`**: <home>\ledgerline\.env.example
 
 <details><summary>tool output</summary>
 
@@ -953,22 +955,22 @@ The Makefile is written for Linux (it uses `.venv/bin/...`, where Windows uses `
 **Tool call: `PowerShell`**: Create Python 3.12 venv and install backend
 
 ```
-cd C:\Users\athwi\ledgerline; py -3.12 -m venv backend\.venv; backend\.venv\Scripts\python -m pip install -q -e "./backend[dev]"; "PIP EXIT: $LASTEXITCODE"
+cd <home>\ledgerline; py -3.12 -m venv backend\.venv; backend\.venv\Scripts\python -m pip install -q -e "./backend[dev]"; "PIP EXIT: $LASTEXITCODE"
 ```
 
 **Tool call: `PowerShell`**: Install frontend npm dependencies
 
 ```
-cd C:\Users\athwi\ledgerline\frontend; npm install --no-audit --no-fund 2>&1 | Select-Object -Last 5; "NPM EXIT: $LASTEXITCODE"
+cd <home>\ledgerline\frontend; npm install --no-audit --no-fund 2>&1 | Select-Object -Last 5; "NPM EXIT: $LASTEXITCODE"
 ```
 
 <details><summary>tool output</summary>
 
 ```
 [notice] A new release of pip is available: 24.2 -> 26.3
-[notice] To update, run: C:\Users\athwi\ledgerline\backend\.venv\Scripts\python.exe -m pip install --upgrade pip
+[notice] To update, run: <home>\ledgerline\backend\.venv\Scripts\python.exe -m pip install --upgrade pip
 PIP EXIT: 0
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -978,7 +980,7 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 ```
 node.exe : npm notice
 At line:1 char:1
-+ & "C:\Program Files\nodejs/node.exe" "C:\Users\athwi\AppData\Roaming\ ...
++ & "C:\Program Files\nodejs/node.exe" "<home>\AppData\Roaming\ ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (npm notice:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
@@ -988,7 +990,7 @@ npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
 npm notice To update run: npm install -g npm@12.2.2
 npm notice
 NPM EXIT: 0
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -996,7 +998,7 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 **Tool call: `PowerShell`**: Run starter test suite offline and check git status
 
 ```
-cd C:\Users\athwi\ledgerline\backend; .venv\Scripts\pytest -q 2>&1 | Select-Object -Last 15; cd ..; git status --short
+cd <home>\ledgerline\backend; .venv\Scripts\pytest -q 2>&1 | Select-Object -Last 15; cd ..; git status --short
 ```
 
 <details><summary>tool output</summary>
@@ -1004,7 +1006,7 @@ cd C:\Users\athwi\ledgerline\backend; .venv\Scripts\pytest -q 2>&1 | Select-Obje
 ```
 ....................                                                     [100%]
 20 passed in 1.45s
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -1014,7 +1016,7 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 Your setup is done. You can forget Ubuntu/WSL; we're not using it.
 
 **What I did:**
-1. Cloned your repo to **`C:\Users\athwi\ledgerline`**. It's linked to `AthwikaGade/ledgerline`, and it's outside OneDrive.
+1. Cloned your repo to **`<home>\ledgerline`**. It's linked to `<github-user>/ledgerline`, and it's outside OneDrive.
 2. Installed the backend with your Windows Python 3.12.
 3. Installed the frontend with npm.
 4. Ran the starter tests: **20 passed**, with no network or keys needed.
@@ -1023,7 +1025,7 @@ Your setup is done. You can forget Ubuntu/WSL; we're not using it.
 ## Your next 2 steps
 
 **1. Open the project in VS Code**
-**File → Open Folder → `C:\Users\athwi\ledgerline`**. Work from that window from now on, not this `Assessment` one.
+**File → Open Folder → `<home>\ledgerline`**. Work from that window from now on, not this `Assessment` one.
 
 **2. Create your `.env` file**
 In that new VS Code window, copy `.env.example`, rename the copy to `.env`, and paste your API key after `ANTHROPIC_API_KEY=[REDACTED] **Don't paste your key into this chat.** `.env` is already in `.gitignore`, so it won't be committed.
@@ -1068,32 +1070,32 @@ now listen carefully, dont commit naything without my permission.
 even if you are doing something let me know your decision lets review it.
 we should follow the checklist n make sure that we dont miss anythung n we are not violating any instruvtion s they provided
 
-**Tool call: `Write`**: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\project_ledgerline.md
+**Tool call: `Write`**: <home>\.claude\projects\<claude-project-dir>\memory\project_ledgerline.md
 
 <details><summary>tool output</summary>
 
 ```
-File created successfully at: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\project_ledgerline.md
+File created successfully at: <home>\.claude\projects\<claude-project-dir>\memory\project_ledgerline.md
 ```
 
 </details>
 
-**Tool call: `Write`**: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\feedback_ledgerline_approval.md
+**Tool call: `Write`**: <home>\.claude\projects\<claude-project-dir>\memory\feedback_ledgerline_approval.md
 
 <details><summary>tool output</summary>
 
 ```
-File created successfully at: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\feedback_ledgerline_approval.md
+File created successfully at: <home>\.claude\projects\<claude-project-dir>\memory\feedback_ledgerline_approval.md
 ```
 
 </details>
 
-**Tool call: `Edit`**: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\MEMORY.md
+**Tool call: `Edit`**: <home>\.claude\projects\<claude-project-dir>\memory\MEMORY.md
 
 <details><summary>tool output</summary>
 
 ```
-The file C:\Users\athwi\.claude\projects\c--Users-athwi\memory\MEMORY.md has been updated successfully.
+The file <home>\.claude\projects\<claude-project-dir>\memory\MEMORY.md has been updated successfully.
 ```
 
 </details>
@@ -1146,7 +1148,7 @@ yes read
 **Tool call: `Bash`**: Print all docs in the repo
 
 ```
-cd /c/Users/athwi/ledgerline && for f in docs/*.md; do echo "=================== $f"; cat "$f"; done
+cd <home>/ledgerline && for f in docs/*.md; do echo "=================== $f"; cat "$f"; done
 ```
 
 <details><summary>tool output</summary>
@@ -1182,7 +1184,7 @@ I've read the docs. Next I'll skim the backend code, read-only, so I can check t
 **Tool call: `Bash`**: List backend files with line counts and data files
 
 ```
-cd /c/Users/athwi/ledgerline && find backend -path backend/.venv -prune -o -type f \( -name '*.py' -o -name '*.toml' -o -name '*.txt' -o -name '*.md' \) -print | grep -v egg-info | xargs wc -l; ls data/invoices/dev data/invoices/disputed data/reference; ls submission .github/workflows 2>/dev/null
+cd <home>/ledgerline && find backend -path backend/.venv -prune -o -type f \( -name '*.py' -o -name '*.toml' -o -name '*.txt' -o -name '*.md' \) -print | grep -v egg-info | xargs wc -l; ls data/invoices/dev data/invoices/disputed data/reference; ls submission .github/workflows 2>/dev/null
 ```
 
 <details><summary>tool output</summary>
@@ -1247,13 +1249,13 @@ Small codebase (~1,100 lines). Reading the core files:
 **Tool call: `Bash`**: Print core pipeline, extraction, validation, pricing files
 
 ```
-cd /c/Users/athwi/ledgerline/backend && for f in ledgerline/pipeline.py ledgerline/extraction.py ledgerline/validation.py ledgerline/llm/pricing.py ledgerline/llm/anthropic_client.py ledgerline/parsing.py ledgerline/reference.py; do echo "=================== $f"; cat -n "$f"; done
+cd <home>/ledgerline/backend && for f in ledgerline/pipeline.py ledgerline/extraction.py ledgerline/validation.py ledgerline/llm/pricing.py ledgerline/llm/anthropic_client.py ledgerline/parsing.py ledgerline/reference.py; do echo "=================== $f"; cat -n "$f"; done
 ```
 
 **Tool call: `Bash`**: Print API, DB, CLI, config, eval files
 
 ```
-cd /c/Users/athwi/ledgerline/backend && for f in ledgerline/api.py ledgerline/db.py ledgerline/cli.py ledgerline/config.py ledgerline/models.py ledgerline/llm/__init__.py ledgerline/llm/openai_compat.py eval/run_eval.py ../.github/workflows/ci.yml; do echo "=================== $f"; cat -n "$f"; done; ls ledgerline; ls ledgerline/prompts 2>/dev/null
+cd <home>/ledgerline/backend && for f in ledgerline/api.py ledgerline/db.py ledgerline/cli.py ledgerline/config.py ledgerline/models.py ledgerline/llm/__init__.py ledgerline/llm/openai_compat.py eval/run_eval.py ../.github/workflows/ci.yml; do echo "=================== $f"; cat -n "$f"; done; ls ledgerline; ls ledgerline/prompts 2>/dev/null
 ```
 
 <details><summary>tool output</summary>
@@ -1343,7 +1345,7 @@ Exit code 2
 **Tool call: `Bash`**: Print config, CLI, DB, sample labels and reference data
 
 ```
-cd /c/Users/athwi/ledgerline/backend && cat -n ledgerline/config.py ledgerline/cli.py; sed -n 1,95p ledgerline/db.py; head -c 1500 ../data/ground_truth/dev.jsonl; echo; cat ../data/reference/vendors.csv; echo; cat ../data/reference/paid_invoices.csv
+cd <home>/ledgerline/backend && cat -n ledgerline/config.py ledgerline/cli.py; sed -n 1,95p ledgerline/db.py; head -c 1500 ../data/ground_truth/dev.jsonl; echo; cat ../data/reference/vendors.csv; echo; cat ../data/reference/paid_invoices.csv
 ```
 
 <details><summary>tool output</summary>
@@ -1452,7 +1454,7 @@ what docs should i read to write that?
 
 ### 🤖 Claude  <sub>2026-11-18 05:19 UTC</sub>
 
-You have 30–45 minutes, so read in this order. All of these are in **`C:\Users\athwi\ledgerline\docs\`**.
+You have 30–45 minutes, so read in this order. All of these are in **`<home>\ledgerline\docs\`**.
 
 ## Must read (about 30 min)
 | # | File | Time | What to look for |
@@ -1482,19 +1484,19 @@ To write your risks from your own evidence rather than my list, open these two:
 
 so whatever you commit dont keep claude as co author , understand . it shouldnt appear anywhere
 
-**Tool call: `Edit`**: C:\Users\athwi\.claude\projects\c--Users-athwi\memory\feedback_ledgerline_approval.md
+**Tool call: `Edit`**: <home>\.claude\projects\<claude-project-dir>\memory\feedback_ledgerline_approval.md
 
 <details><summary>tool output</summary>
 
 ```
-The file C:\Users\athwi\.claude\projects\c--Users-athwi\memory\feedback_ledgerline_approval.md has been updated successfully.
+The file <home>\.claude\projects\<claude-project-dir>\memory\feedback_ledgerline_approval.md has been updated successfully.
 ```
 
 </details>
 
 ### 🤖 Claude  <sub>2026-11-18 06:35 UTC</sub>
 
-Understood, and saved to memory. No `Co-Authored-By: Claude` line or any other AI attribution will go in **commit messages or PR descriptions**. Commits will show only you (git user `athwika`).
+Understood, and saved to memory. No `Co-Authored-By: Claude` line or any other AI attribution will go in **commit messages or PR descriptions**. Commits will show only you (git user `<name>`).
 
 **One thing to know, so you don't break a rule by accident:** the assignment *requires* you to disclose AI use in a few places. Those can't be left out:
 | Required by the README | What it contains |
@@ -1520,7 +1522,7 @@ Let me check where your FIRST_HOUR.md is and what's in the repo right now. This 
 **Tool call: `Bash`**: Check repo status, FIRST_HOUR and AI_USAGE templates, session folders
 
 ```
-cd /c/Users/athwi/ledgerline && git status --short && echo "--- FIRST_HOUR:" && cat submission/FIRST_HOUR.md && echo "--- AI_USAGE template:" && cat submission/AI_USAGE.md && echo "--- ai-logs:" && ls -la submission/ai-logs && git log --oneline | head -5; echo "--- sessions:"; ls -t /c/Users/athwi/.claude/projects/ | head -5
+cd <home>/ledgerline && git status --short && echo "--- FIRST_HOUR:" && cat submission/FIRST_HOUR.md && echo "--- AI_USAGE template:" && cat submission/AI_USAGE.md && echo "--- ai-logs:" && ls -la submission/ai-logs && git log --oneline | head -5; echo "--- sessions:"; ls -t <home>/.claude/projects/ | head -5
 ```
 
 <details><summary>tool output</summary>
@@ -1569,7 +1571,7 @@ Roughly how long y
 
 ### 🤖 Claude  <sub>2026-11-18 17:02 UTC</sub>
 
-Your FIRST_HOUR.md isn't in the repo yet. The file at `C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md` is still the empty template. Here's the plan for both things.
+Your FIRST_HOUR.md isn't in the repo yet. The file at `<home>\ledgerline\submission\FIRST_HOUR.md` is still the empty template. Here's the plan for both things.
 
 ## 1. FIRST_HOUR.md
 **Paste your text here.** I'll:
@@ -1586,7 +1588,7 @@ git push
 *Why only that file:* the rule says "commit it **on its own**".
 
 ## 2. The first-hour AI transcript (this chat)
-You don't need to copy it by hand. Claude Code saves every chat automatically on your PC. I found this session's file in `C:\Users\athwi\.claude\projects\...Assessment\`. I can:
+You don't need to copy it by hand. Claude Code saves every chat automatically on your PC. I found this session's file in `<home>\.claude\projects\...Assessment\`. I can:
 1. convert it to a readable Markdown file: `submission/ai-logs/00_first_hour_claude_code.md`;
 2. **redact** your email address and anything that looks like an API key;
 3. show you a preview before anything gets committed.
@@ -1642,7 +1644,7 @@ I want to focus on the issues that are directly causing financial loss first. Th
 3. How are bank account changes currently verified?
 4. Who approves future policy changes?
 
-**Tool call: `Write`**: C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md
+**Tool call: `Write`**: <home>\ledgerline\submission\FIRST_HOUR.md
 
 <details><summary>tool output</summary>
 
@@ -1655,19 +1657,19 @@ I want to focus on the issues that are directly causing financial loss first. Th
 **Tool call: `Bash`**: Count words in FIRST_HOUR and show git status
 
 ```
-cd /c/Users/athwi/ledgerline && echo "words excl. instruction line: $(grep -v '^\*Under about' submission/FIRST_HOUR.md | wc -w)" && git status --short
+cd <home>/ledgerline && echo "words excl. instruction line: $(grep -v '^\*Under about' submission/FIRST_HOUR.md | wc -w)" && git status --short
 ```
 
 <details><summary>tool output</summary>
 
 ```
 words excl. instruction line: 90
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
 
-**Tool call: `Read`**: C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md
+**Tool call: `Read`**: <home>\ledgerline\submission\FIRST_HOUR.md
 
 <details><summary>tool output</summary>
 
@@ -1690,18 +1692,18 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 
 </details>
 
-**Tool call: `Write`**: C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md
+**Tool call: `Write`**: <home>\ledgerline\submission\FIRST_HOUR.md
 
 **Tool call: `Bash`**: Count words in FIRST_HOUR and show git status
 
 ```
-cd /c/Users/athwi/ledgerline && echo "words excl. instruction line & headings: $(grep -v -e '^\*Under about' -e '^#' submission/FIRST_HOUR.md | wc -w)" && git status --short
+cd <home>/ledgerline && echo "words excl. instruction line & headings: $(grep -v -e '^\*Under about' -e '^#' submission/FIRST_HOUR.md | wc -w)" && git status --short
 ```
 
 <details><summary>tool output</summary>
 
 ```
-The file C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md has been updated successfully. (file state is current in your context — no need to Read it back)
+The file <home>\ledgerline\submission\FIRST_HOUR.md has been updated successfully. (file state is current in your context — no need to Read it back)
 ```
 
 </details>
@@ -1711,7 +1713,7 @@ The file C:\Users\athwi\ledgerline\submission\FIRST_HOUR.md has been updated suc
 ```
 words excl. instruction line & headings: 261
  M submission/FIRST_HOUR.md
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -1820,7 +1822,7 @@ this is what they gave , make in this format
 
 I'll draft it in that exact format with what we know so far. The sections that depend on later work are marked **TODO**, because this file gets finalised at the end. AI drafting is allowed for this file (it's not on the "own words" list), but read it and change anything that doesn't sound like you.
 
-**Tool call: `Read`**: C:\Users\athwi\ledgerline\submission\AI_USAGE.md
+**Tool call: `Read`**: <home>\ledgerline\submission\AI_USAGE.md
 
 <details><summary>tool output</summary>
 
@@ -1855,12 +1857,12 @@ I'll draft it in that exact format with what we know so far. The sections that d
 
 </details>
 
-**Tool call: `Write`**: C:\Users\athwi\ledgerline\submission\AI_USAGE.md
+**Tool call: `Write`**: <home>\ledgerline\submission\AI_USAGE.md
 
 <details><summary>tool output</summary>
 
 ```
-The file C:\Users\athwi\ledgerline\submission\AI_USAGE.md has been updated successfully. (file state is current in your context — no need to Read it back)
+The file <home>\ledgerline\submission\AI_USAGE.md has been updated successfully. (file state is current in your context — no need to Read it back)
 ```
 
 </details>
@@ -2013,7 +2015,7 @@ okay now commit my first hour.md
 **Tool call: `Bash`**: Commit only FIRST_HOUR.md and push to GitHub
 
 ```
-cd /c/Users/athwi/ledgerline && git add submission/FIRST_HOUR.md && git status --short && git commit -q -m "Add first-hour notes before any code changes" && git log --stat -1 --format='%h %an | %s%n%b' && git push 2>&1 | tail -2
+cd <home>/ledgerline && git add submission/FIRST_HOUR.md && git status --short && git commit -q -m "Add first-hour notes before any code changes" && git log --stat -1 --format='%h %an | %s%n%b' && git push 2>&1 | tail -2
 ```
 
 <details><summary>tool output</summary>
@@ -2022,14 +2024,14 @@ cd /c/Users/athwi/ledgerline && git add submission/FIRST_HOUR.md && git status -
 warning: in the working copy of 'submission/FIRST_HOUR.md', LF will be replaced by CRLF the next time Git touches it
  M submission/AI_USAGE.md
 M  submission/FIRST_HOUR.md
-2c2e19c athwika | Add first-hour notes before any code changes
+2c2e19c <name> | Add first-hour notes before any code changes
 
 
  submission/FIRST_HOUR.md | 18 ++++++++++++++++--
  1 file changed, 16 insertions(+), 2 deletions(-)
-To https://github.com/AthwikaGade/ledgerline.git
+To https://github.com/<github-user>/ledgerline.git
    1bbea94..2c2e19c  main -> main
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -2041,9 +2043,9 @@ Commit #1 is done and pushed.
 | Check | Result |
 |---|---|
 | Commit | `2c2e19c`, "Add first-hour notes before any code changes" |
-| Author | `athwika` only, with no co-author line |
+| Author | `<name>` only, with no co-author line |
 | Files in the commit | **Only** `submission/FIRST_HOUR.md` |
-| Pushed | ✅ `github.com/AthwikaGade/ledgerline` |
+| Pushed | ✅ `github.com/<github-user>/ledgerline` |
 | AI_USAGE.md | Still uncommitted, as planned |
 
 From now on, **don't edit FIRST_HOUR.md**.
@@ -2069,14 +2071,14 @@ Starting with the transcript. First I'll find the saved session file:
 **Tool call: `Bash`**: List saved Claude Code session files for this folder
 
 ```
-cd "/c/Users/athwi/.claude/projects/c--Users-athwi-OneDrive-Folder-OneDrive-Desktop-Assessment" && ls -la --time-style=+%m-%d_%H:%M *.jsonl | sort -k6 | tail -5
+cd "<home>/.claude/projects/<claude-project-dir>" && ls -la --time-style=+%m-%d_%H:%M *.jsonl | sort -k6 | tail -5
 ```
 
 <details><summary>tool output</summary>
 
 ```
--rw-r--r-- 1 athwi 197609 5689092 11-18_11:29 cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl
-Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessment
+-rw-r--r-- 1 <user> 197609 5689092 11-18_11:29 cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl
+Shell cwd was reset to <home>\Desktop\Assessment
 ```
 
 </details>
@@ -2084,7 +2086,7 @@ Shell cwd was reset to c:\Users\athwi\OneDrive\Folder\OneDrive\Desktop\Assessmen
 **Tool call: `Bash`**: Inspect the structure of the session log
 
 ```
-cd "/c/Users/athwi/.claude/projects/c--Users-athwi-OneDrive-Folder-OneDrive-Desktop-Assessment" && python -c "
+cd "<home>/.claude/projects/<claude-project-dir>" && python -c "
 import json,collections
 c=collections.Counter()
 for l in open('cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl',encoding='utf-8'):
@@ -2130,12 +2132,12 @@ for k,v in c.most_common(30): print(v,k)
 
 </details>
 
-**Tool call: `Write`**: C:\Users\athwi\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py
+**Tool call: `Write`**: <home>\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py
 
 <details><summary>tool output</summary>
 
 ```
-File created successfully at: C:\Users\athwi\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py (file state is current in your context — no need to Read it back)
+File created successfully at: <home>\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py (file state is current in your context — no need to Read it back)
 ```
 
 </details>
@@ -2143,14 +2145,14 @@ File created successfully at: C:\Users\athwi\AppData\Local\Temp\claude\e916178c9
 **Tool call: `Bash`**: Generate redacted transcript and check for leaks
 
 ```
-S="/c/Users/athwi/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=/c/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "/c/Users/athwi/.claude/projects/c--Users-athwi-OneDrive-Folder-OneDrive-Desktop-Assessment/cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl" "$OUT" "00 - First hour (setup, reading, planning, FIRST_HOUR.md) - Claude Code" && wc -lc "$OUT" && echo "--- leak check:" && grep -ciE "[REDACTED_EMAIL]|@gmail|sk-ant|api_key=[REDACTED] "$OUT"; grep -c "## 🧑 User" "$OUT"; head -40 "$OUT"
+S="<home>/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=<home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "<home>/.claude/projects/<claude-project-dir>/cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl" "$OUT" "00 - First hour (setup, reading, planning, FIRST_HOUR.md) - Claude Code" && wc -lc "$OUT" && echo "--- leak check:" && grep -ciE "[REDACTED_EMAIL]|@gmail|sk-ant|api_key=[REDACTED] "$OUT"; grep -c "## 🧑 User" "$OUT"; head -40 "$OUT"
 ```
 
 <details><summary>tool output</summary>
 
 ```
-wrote C:/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md
-  2148 109626 /c/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md
+wrote <home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md
+  2148 109626 <home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md
 --- leak check:
 1
 31
@@ -2163,7 +2165,7 @@ _Exported from the Claude Code session log. Thinking blocks are omitted, tool ou
 
 > _(pasted text)_
 
-Hi Athwika,
+Hi <name>,
 
 As a next step in the interview process, here's an assignment we'd like you to take up. 
 
@@ -2195,29 +2197,29 @@ The leak check found one match. Let me see what it is:
 **Tool call: `Bash`**: Show the line that matched the leak check
 
 ```
-grep -niE "[REDACTED_EMAIL]|@gmail|sk-ant|api_key=[REDACTED] /c/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md | cut -c1-250
+grep -niE "[REDACTED_EMAIL]|@gmail|sk-ant|api_key=[REDACTED] <home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md | cut -c1-250
 ```
 
 <details><summary>tool output</summary>
 
 ```
-2146:S="/c/Users/athwi/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=/c/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "/c/Users/athwi/.cl
+2146:S="<home>/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=<home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "<home>/.cl
 ```
 
 </details>
 
-**Tool call: `Edit`**: C:\Users\athwi\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py
+**Tool call: `Edit`**: <home>\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py
 
 **Tool call: `Bash`**: Regenerate transcript and recheck for leaks
 
 ```
-S="/c/Users/athwi/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=/c/Users/athwi/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "/c/Users/athwi/.claude/projects/c--Users-athwi-OneDrive-Folder-OneDrive-Desktop-Assessment/cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl" "$OUT" "00 - First hour (setup, reading, planning, FIRST_HOUR.md) - Claude Code" && P1='athwika''gade[0-9]'; P2='@gm''ail'; echo "leaks: $(grep -ciE "$P1|$P2|sk-ant" "$OUT")"; cd /c/Users/athwi/ledgerline && git status --short
+S="<home>/AppData/Local/Temp/claude/e916178c9b34410b/cebcbbf4-a219-4deb-a815-ffee9f424342/scratchpad"; OUT=<home>/ledgerline/submission/ai-logs/00_first_hour_claude_code.md; python -I "$S/export_transcript.py" "<home>/.claude/projects/<claude-project-dir>/cebcbbf4-a219-4deb-a815-ffee9f424342.jsonl" "$OUT" "00 - First hour (setup, reading, planning, FIRST_HOUR.md) - Claude Code" && P1='<name>''gade[0-9]'; P2='@gm''ail'; echo "leaks: $(grep -ciE "$P1|$P2|sk-ant" "$OUT")"; cd <home>/ledgerline && git status --short
 ```
 
 <details><summary>tool output</summary>
 
 ```
-The file C:\Users\athwi\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py has been updated successfully. (file state is current in your context — no need to Read it back)
+The file <home>\AppData\Local\Temp\claude\e916178c9b34410b\cebcbbf4-a219-4deb-a815-ffee9f424342\scratchpad\export_transcript.py has been updated successfully. (file state is current in your context — no need to Read it back)
 ```
 
 </details>
