@@ -20,6 +20,7 @@ from .config import USD_TO_INR, get_settings
 from .llm.pricing import PRICES_CHECKED_ON, cost_usd
 from .pipeline import process_document
 from .reference import load_reference
+from .safeguard import require_local_development
 
 app = FastAPI(title="Ledgerline API", version="0.3.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -112,7 +113,7 @@ def _distinct_approvers(conn: sqlite3.Connection, invoice_id: int) -> int:
                         (invoice_id,)).fetchone()[0]
 
 
-@app.post("/api/invoices/{invoice_id}/approve")
+@app.post("/api/invoices/{invoice_id}/approve", dependencies=[Depends(require_local_development)])
 def approve_invoice(invoice_id: int, body: DecisionRequest, org_id: str = Depends(get_org),
                     conn=Depends(get_conn)):
     """AP_POLICY section 4, enforced inside one transaction. A retry by someone who already approved changes nothing
@@ -156,7 +157,7 @@ def approve_invoice(invoice_id: int, body: DecisionRequest, org_id: str = Depend
             "status": status}
 
 
-@app.post("/api/invoices/{invoice_id}/reject")
+@app.post("/api/invoices/{invoice_id}/reject", dependencies=[Depends(require_local_development)])
 def reject_invoice(invoice_id: int, body: DecisionRequest, org_id: str = Depends(get_org),
                    conn=Depends(get_conn)):
     """Rejection is final and audited. An approved invoice cannot be rejected: its payment instruction exists."""

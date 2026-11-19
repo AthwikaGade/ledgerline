@@ -1,0 +1,35 @@
+# Approval safeguard tests AFTER the change (working tree on 2d0ecf2), 2026-11-19T00:00Z. Paths replaced.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 20 items
+
+tests\test_approval_safeguard.py ....................                    [100%]
+
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-None]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-production]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-prod]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-staging]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-Development ]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-None]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-production]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-prod]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-staging]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-]
+PASSED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-Development ]
+PASSED tests/test_approval_safeguard.py::test_in_development_a_request_from_another_machine_is_refused[approve]
+PASSED tests/test_approval_safeguard.py::test_in_development_a_request_from_another_machine_is_refused[reject]
+PASSED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_ALLOW_APPROVALS]
+PASSED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_AUTH_DISABLED]
+PASSED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_FLAG_APPROVALS]
+PASSED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_APPROVALS_ENABLED]
+PASSED tests/test_approval_safeguard.py::test_local_development_still_approves
+PASSED tests/test_approval_safeguard.py::test_reading_and_uploading_still_work_in_production
+============================= 20 passed in 1.78s ==============================
+# Full backend suite:
+349 passed in 9.29s

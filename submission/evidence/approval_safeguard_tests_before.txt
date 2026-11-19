@@ -1,0 +1,96 @@
+# Approval safeguard tests against committed code 2d0ecf2 (no safeguard yet), 2026-11-18T23:59Z. Paths replaced.
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: <repo>\backend
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 20 items
+
+tests\test_approval_safeguard.py FFFFFFFFFFFFFFFFFF..                    [100%]
+
+================================== FAILURES ===================================
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:53: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:61: assert 200 == 403
+E   assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+<repo>\backend\tests\test_approval_safeguard.py:61: assert 200 == 403
+E   AssertionError: assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = decide(<starlette.testclient.TestClient object at 0x00000298827D6450>, {'id': 1, 'db': '<tmp>'}, 'approve')
+     +      where <starlette.testclient.TestClient object at 0x00000298827D6450> = TestClient(app)
+<repo>\backend\tests\test_approval_safeguard.py:70: AssertionError: assert 200 == 403
+E   AssertionError: assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = decide(<starlette.testclient.TestClient object at 0x00000298827D6120>, {'id': 1, 'db': '<tmp>'}, 'approve')
+     +      where <starlette.testclient.TestClient object at 0x00000298827D6120> = TestClient(app)
+<repo>\backend\tests\test_approval_safeguard.py:70: AssertionError: assert 200 == 403
+E   AssertionError: assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = decide(<starlette.testclient.TestClient object at 0x00000298827B8230>, {'id': 1, 'db': '<tmp>'}, 'approve')
+     +      where <starlette.testclient.TestClient object at 0x00000298827B8230> = TestClient(app)
+<repo>\backend\tests\test_approval_safeguard.py:70: AssertionError: assert 200 == 403
+E   AssertionError: assert 200 == 403
+     +  where 200 = <Response [200 OK]>.status_code
+     +    where <Response [200 OK]> = decide(<starlette.testclient.TestClient object at 0x00000298827B9F40>, {'id': 1, 'db': '<tmp>'}, 'approve')
+     +      where <starlette.testclient.TestClient object at 0x00000298827B9F40> = TestClient(app)
+<repo>\backend\tests\test_approval_safeguard.py:70: AssertionError: assert 200 == 403
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_approval_safeguard.py::test_local_development_still_approves
+PASSED tests/test_approval_safeguard.py::test_reading_and_uploading_still_work_in_production
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-None]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-production]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-prod]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-staging]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[approve-Development ]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-None]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-production]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-prod]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-staging]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-]
+FAILED tests/test_approval_safeguard.py::test_outside_development_approve_and_reject_are_refused[reject-Development ]
+FAILED tests/test_approval_safeguard.py::test_in_development_a_request_from_another_machine_is_refused[approve]
+FAILED tests/test_approval_safeguard.py::test_in_development_a_request_from_another_machine_is_refused[reject]
+FAILED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_ALLOW_APPROVALS]
+FAILED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_AUTH_DISABLED]
+FAILED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_FLAG_APPROVALS]
+FAILED tests/test_approval_safeguard.py::test_no_setting_enables_approvals_in_production[LEDGERLINE_APPROVALS_ENABLED]
+======================== 18 failed, 2 passed in 2.10s =========================

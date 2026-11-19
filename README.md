@@ -225,3 +225,17 @@ no rows are changed.
 stop the same *name* from approving twice; they **do not prove that two different real people approved**, and they
 do not stop someone from typing another person's name or another organisation's ID. Before Ledgerline handles
 every invoice, both values must come from authentication (for example Meridian's SSO), not from the request.
+There is also no role check: nothing limits approval to the AP Lead and the Finance Controller.
+
+**Production blocker, enforced in code.** Until verified authentication and role-based authorization exist, the
+approve and reject endpoints refuse every request (HTTP 403) unless **both** of these hold:
+
+- `LEDGERLINE_ENV=development`, and
+- the request comes from this machine (127.0.0.1 or ::1; the Vite dev server proxies the UI's calls from there).
+
+Unset `LEDGERLINE_ENV` counts as production. **No setting enables approvals in production**; lifting the block means
+implementing authentication (`backend/ledgerline/safeguard.py`). Reading, uploading and the batch command are not
+affected. `make dev` sets `LEDGERLINE_ENV=development` for the API, and the test suite runs as development. On
+Windows without `make`, start the API with `$env:LEDGERLINE_ENV="development"` (PowerShell) before `uvicorn`.
+Never set `development` on a shared or production server: behind a reverse proxy on the same host every caller
+looks local.

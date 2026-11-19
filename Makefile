@@ -12,7 +12,7 @@ test:
 	cd backend && .venv/bin/pytest -q
 
 api:
-	cd backend && .venv/bin/uvicorn ledgerline.api:app --reload --port 8000
+	cd backend && LEDGERLINE_ENV=development .venv/bin/uvicorn ledgerline.api:app --reload --port 8000
 
 ui:
 	cd frontend && npm run dev
