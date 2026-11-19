@@ -113,8 +113,8 @@ a message is not counted.
 | Privacy, cost reporting, escalation | in session (measured) | 0.6 |
 | Paid evaluations, disputed-document flags, final fixes, report drafts | in session (measured) | 1.7 |
 | RULINGS, stakeholder replies, REFLECTION and my other documents | offline (my estimate) | 0.4 |
-| Final review, clean-clone check, submission | in session (measured) | 1.1 |
-| **Total, excluding setup** (5.95 h in session + 0.75 h offline; rows are rounded) | | **about 6.7** |
+| Final review, clean-clone check, submission | in session (measured) | 1.4 |
+| **Total, excluding setup** (6.2 h in session + 0.75 h offline; rows are rounded) | | **about 7.0** |
 
 ## Transcripts
 
@@ -123,6 +123,7 @@ a message is not counted.
 
 Both are exported from the Claude Code session log, with thinking blocks omitted, long tool output truncated, my
 email address and anything resembling an API key redacted, and my Windows username, local paths, GitHub username and
-name replaced with placeholders (`<home>`, `<user>`, `<claude-project-dir>`, `<github-user>`, `<name>`). Nothing else
+name replaced with placeholders (`<home>`, `<user>`, `<claude-project-dir>`, `<github-user>`, `<name>`); in the main
+session, the two bank account numbers quoted from sample invoices are masked to their last four digits. Nothing else
 in the conversation was changed. The first-hour transcript was committed before this redaction existed; its
 redaction is a separate later commit, and the original remains in the repository's history.
