@@ -1,0 +1,7 @@
+[skip] disp_01.txt: Expecting value: line 1 column 1 (char 0)
+[skip] disp_02.txt: Expecting value: line 1 column 1 (char 0)
+[skip] disp_03.txt: Expecting value: line 1 column 1 (char 0)
+[skip] disp_04.eml: Expecting value: line 1 column 1 (char 0)
+[skip] disp_05.txt: Expecting value: line 1 column 1 (char 0)
+[skip] disp_06.eml: Expecting value: line 1 column 1 (char 0)
+wrote 0/6 predictions to <repo>\submission\baseline\claude-opus-5-5\A_starter_unchanged\predictions_disputed.jsonl

@@ -1,0 +1,353 @@
+{
+  "label": "Starter's ACTUAL behaviour. Model responses passed through untouched.",
+  "mode": "unchanged",
+  "model": "claude-opus-5-5",
+  "generated_at": "2026-11-18T18:14:34.215783+00:00",
+  "splits": {
+    "dev": {
+      "documents": 24,
+      "predictions_written": 0,
+      "documents_skipped": [
+        "dev_001",
+        "dev_002",
+        "dev_003",
+        "dev_004",
+        "dev_005",
+        "dev_006",
+        "dev_007",
+        "dev_008",
+        "dev_009",
+        "dev_010",
+        "dev_011",
+        "dev_012",
+        "dev_013",
+        "dev_014",
+        "dev_015",
+        "dev_016",
+        "dev_017",
+        "dev_018",
+        "dev_019",
+        "dev_020",
+        "dev_021",
+        "dev_022",
+        "dev_023",
+        "dev_024"
+      ],
+      "llm_calls": 24,
+      "cache_hits": 0,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 24
+      },
+      "real_cost_per_doc_usd_avg": 0.0752,
+      "real_cost_per_doc_inr_avg": 6.62,
+      "latency_per_doc_ms_p50": 18219,
+      "latency_per_doc_ms_p95": 20046,
+      "starter_reported_cost_inr_total": 0,
+      "real_cost_inr_total_for_written_docs": 0.0
+    },
+    "disputed": {
+      "documents": 6,
+      "predictions_written": 0,
+      "documents_skipped": [
+        "disp_01",
+        "disp_02",
+        "disp_03",
+        "disp_04",
+        "disp_05",
+        "disp_06"
+      ],
+      "llm_calls": 6,
+      "cache_hits": 0,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 6
+      },
+      "real_cost_per_doc_usd_avg": 0.0811,
+      "real_cost_per_doc_inr_avg": 7.14,
+      "latency_per_doc_ms_p50": 21093,
+      "latency_per_doc_ms_p95": 23046,
+      "starter_reported_cost_inr_total": 0,
+      "real_cost_inr_total_for_written_docs": 0.0
+    }
+  },
+  "eval": {
+    "status": "crashed",
+    "error": "ZeroDivisionError: division by zero"
+  },
+  "new_api_calls_this_run": 30,
+  "billed_usd_this_run": 2.2924,
+  "billed_usd_all_runs": 2.2924,
+  "failures": [
+    {
+      "split": "dev",
+      "document_id": "dev_001",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_002",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_003",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_004",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_005",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_006",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_007",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_008",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_009",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_010",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_011",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_012",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_013",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_014",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_015",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_016",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_017",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_018",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_019",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_020",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_021",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_022",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_023",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "dev",
+      "document_id": "dev_024",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_01",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_02",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_03",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_04",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_05",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "disputed",
+      "document_id": "disp_06",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_001",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_002",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_003",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_004",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_005",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_006",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_007",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_008",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_009",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_010",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_011",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_012",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_013",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_014",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_015",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_016",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_017",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_018",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_019",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_020",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_021",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_022",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_023",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "split": "eval",
+      "document_id": "dev_024",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    }
+  ]
+}

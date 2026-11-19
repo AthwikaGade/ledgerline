@@ -1,0 +1,50 @@
+{
+  "label": "CURRENT working-tree code, replaying the cached model responses recorded in runs A/B (same prompts, same model). Run with --max-calls 0 so it can never make a new API call.",
+  "mode": "replay",
+  "model": "claude-opus-5-5",
+  "generated_at": "2026-11-18T19:11:52.951015+00:00",
+  "splits": {
+    "dev": {
+      "documents": 24,
+      "predictions_written": 24,
+      "documents_skipped": [],
+      "llm_calls": 48,
+      "cache_hits": 48,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 48
+      },
+      "real_cost_per_doc_usd_avg": 0.154,
+      "real_cost_per_doc_inr_avg": 13.55,
+      "latency_per_doc_ms_p50": 39609,
+      "latency_per_doc_ms_p95": 46060,
+      "starter_reported_cost_inr_total": 0.3251,
+      "real_cost_inr_total_for_written_docs": 325.32
+    },
+    "disputed": {
+      "documents": 6,
+      "predictions_written": 6,
+      "documents_skipped": [],
+      "llm_calls": 12,
+      "cache_hits": 12,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 12
+      },
+      "real_cost_per_doc_usd_avg": 0.1659,
+      "real_cost_per_doc_inr_avg": 14.6,
+      "latency_per_doc_ms_p50": 44529,
+      "latency_per_doc_ms_p95": 57233,
+      "starter_reported_cost_inr_total": 0.0875,
+      "real_cost_inr_total_for_written_docs": 87.61
+    }
+  },
+  "eval": {
+    "status": "completed",
+    "output": "Field accuracy: 287/288 = 99.7%"
+  },
+  "new_api_calls_this_run": 0,
+  "billed_usd_this_run": 0.0,
+  "billed_usd_all_runs": 4.6924,
+  "failures": []
+}

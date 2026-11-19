@@ -1,0 +1,2 @@
+code: starter (commit 6e59f77) + diagnostic JSON-unwrap shim in eval/baseline_starter.py
+recorded: 2026-11-18, paid calls (first calls reused from A)

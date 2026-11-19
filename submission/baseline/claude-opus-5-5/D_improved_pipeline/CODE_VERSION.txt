@@ -1,0 +1,3 @@
+code: commit 2b24b53 (clean tree: privacy masking, one slim call, cost reporting, escalation off)
+model: claude-opus-5-5, recorded 2026-11-18 20:11Z, paid calls ($0.595)
+known issue at this commit: quantities printed with a unit (12 BOX) became processing_error (7 of 30 documents)

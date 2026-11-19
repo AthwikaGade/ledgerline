@@ -1,0 +1,1 @@
+DIAGNOSTIC ONLY, NOT THE ORIGINAL BASELINE. Starter + a JSON-unwrap shim that strips Markdown fences/prose around the model's JSON. Everything else is the unchanged starter.

@@ -1,0 +1,62 @@
+{
+  "label": "The CURRENT pipeline (code routing, masking, one call per document, optional escalation), on real model calls. Same model as the starter baseline when run with --model claude-opus-5-5.",
+  "mode": "improved",
+  "model": "claude-haiku-5-5",
+  "generated_at": "2026-11-18T20:40:32.920209+00:00",
+  "splits": {
+    "dev": {
+      "documents": 24,
+      "predictions_written": 24,
+      "documents_skipped": [],
+      "llm_calls": 28,
+      "cache_hits": 4,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 28
+      },
+      "real_cost_per_doc_usd_avg": 0.0041,
+      "real_cost_per_doc_inr_avg": 0.36,
+      "latency_per_doc_ms_p50": 3906,
+      "latency_per_doc_ms_p95": 13295,
+      "starter_reported_cost_inr_total": 8.6129,
+      "real_cost_inr_total_for_written_docs": 8.61
+    },
+    "disputed": {
+      "documents": 6,
+      "predictions_written": 6,
+      "documents_skipped": [],
+      "llm_calls": 7,
+      "cache_hits": 1,
+      "api_errors": 0,
+      "response_handling": {
+        "passthrough": 7
+      },
+      "real_cost_per_doc_usd_avg": 0.0044,
+      "real_cost_per_doc_inr_avg": 0.39,
+      "latency_per_doc_ms_p50": 3671,
+      "latency_per_doc_ms_p95": 11093,
+      "starter_reported_cost_inr_total": 2.3392,
+      "real_cost_inr_total_for_written_docs": 2.34
+    }
+  },
+  "eval": {
+    "status": "completed",
+    "output": "Field accuracy: 287/288 = 99.7%"
+  },
+  "new_api_calls_this_run": 30,
+  "billed_usd_this_run": 0.0175,
+  "billed_usd_all_runs": 5.3048,
+  "calls_by_model": {
+    "claude-haiku-5-5": {
+      "calls": 30,
+      "cost_usd": 0.01746,
+      "role": "primary"
+    },
+    "claude-opus-5-5": {
+      "calls": 5,
+      "cost_usd": 0.106996,
+      "role": "escalation"
+    }
+  },
+  "failures": []
+}
