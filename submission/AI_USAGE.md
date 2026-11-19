@@ -35,11 +35,11 @@
   reason and saw the failure messages; I asked for all 30 predictions to be validated against OUTPUT_CONTRACT (the
   assistant added negative controls to show the checker fails when it should); I asked it to separate real calls
   from cached replays in the evaluation.
-- **What I wrote myself:** FIRST_HOUR.md, RULINGS.md, the stakeholder replies in DECISIONS.md, REFLECTION.md and
-  FINDINGS.md. For FINDINGS, the assistant first drafted a version that I replaced with my own; it then filled in the
-  exact functions, commits and test names from the repository and checked my eight findings against the evidence.
-  EVAL_REPORT.md, the other DECISIONS sections, the README's "Running my version" and this file were drafted by the
-  assistant from our actual results and reviewed and edited by me.
+- **What I wrote myself:** FIRST_HOUR.md, RULINGS.md, the stakeholder replies in DECISIONS.md, REFLECTION.md,
+  FINDINGS.md and EVAL_REPORT.md. For FINDINGS and EVAL_REPORT, the assistant first drafted versions from our actual
+  results that I replaced with my own; for FINDINGS it then filled in the exact functions, commits and test names from
+  the repository and checked my eight findings against the evidence. The other DECISIONS sections, the README's
+  "Running my version" and this file were drafted by the assistant and reviewed and edited by me.
 
 ## Where the AI was wrong
 

@@ -54,7 +54,7 @@ What I built and measured:
   not change the decision: that cut escalations from 5 to 1 in 30.
 - **Provider outage:** the escalation model can be on a different provider (`LLM_ESCALATION_PROVIDER`), so a failed
   primary call falls back to it; if both fail the document becomes a `processing_error`, never a dropped line.
-- **Within budget:** the cost and quality trade-off, measured on real calls, is in EVAL_REPORT: ₹0.11 per document,
+- **Within budget:** the cost and quality trade-off, from real calls (some re-read later from their saved responses), is in EVAL_REPORT: ₹0.11 per document,
   p50 3.9 s, p95 5.3 s on these 30 documents. The tail stays under 10 s only while fewer than ~5% of documents
   escalate.
 

@@ -223,8 +223,8 @@ python eval/check_contract.py ../data/invoices/disputed ../submission/prediction
 ```
 
 The submitted predictions are the recorded responses of the paid Haiku run read by commit `64a7d51` (no new calls;
-the later commits do not change the batch pipeline). EVAL_REPORT explains which numbers come from real calls and
-which from replaying recorded responses.
+the later commits do not change the batch pipeline). Each run folder in `submission/baseline/` records, in
+`LABEL.txt` and `CODE_VERSION.txt`, whether it made real calls or replayed recorded responses, and with which code.
 
 ### Evaluation
 
