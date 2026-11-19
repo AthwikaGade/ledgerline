@@ -171,7 +171,67 @@ submission/               templates for your write-ups
 
 ## Running my version
 
-_Describe anything that changed about setup or commands._
+The setup and the batch command are unchanged: `cp .env.example .env`, `make setup`, `make test`, `make dev`, and the
+command in `docs/OUTPUT_CONTRACT.md`. What changed is below.
+
+### Setup on Windows without WSL
+
+I developed and verified this natively on Windows (Python 3.12, Node 20+). The Makefile's targets use Linux paths
+(`.venv/bin`), so on Windows run their equivalents:
+
+```powershell
+py -3.12 -m venv backend\.venv
+backend\.venv\Scripts\python -m pip install -e ".\backend[dev]"
+cd frontend; npm ci; cd ..
+cd backend; .venv\Scripts\python -m pytest -q          # make test
+```
+
+### Configuration (`.env`)
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `LLM_PROVIDER`, `LLM_MODEL` | `anthropic`, `claude-opus-5-5` | The primary extraction model. **Recommended:** `claude-haiku-5-5`. |
+| `LLM_ESCALATION_MODEL` | unset (no escalation) | Used only when the primary cannot produce a usable extraction (provider error or outage, unusable reply, missing critical field, unreadable value). **Recommended:** `claude-opus-5-5`. |
+| `LLM_ESCALATION_PROVIDER` | the primary's | Put the escalation model on another provider to survive an outage of the first. |
+| `LEDGERLINE_FLAG_LINE_ARITHMETIC` | off | `1` adds `line_amount_mismatch` (quantity × rate ≠ line amount). Not in AP_POLICY; see RULINGS. |
+| `LEDGERLINE_FLAG_FUTURE_DATED` | off | `1` adds `future_dated` (invoice dated after it was sent or processed). Not in AP_POLICY; see RULINGS. |
+| `LEDGERLINE_ENV` | unset (= production) | `development` allows approve and reject from this machine only. **Never set it on a server** (see "Known limitation" below). `make dev` sets it for the API. |
+
+The `.env.example` defaults are the starter's (Opus, no escalation). They work, but cost ₹1.77 a document with a
+p95 of 11.9 s on the sample, against ₹0.11 and 5.3 s for the recommended Haiku → Opus setup (EVAL_REPORT).
+
+### Tests
+
+- Backend, offline: `make test` (349 tests; no network or API key).
+- Frontend: `cd frontend && npm test` (Vitest, added as a dev dependency because the UI had no test runner) and
+  `npm run build`. CI runs both.
+
+### Batch predictions and the output contract
+
+The command is unchanged and still works on any folder of documents and reference data. `make predict` writes both
+files with the same environment; the submitted files were produced with the flags **off** for dev and **on** for the
+disputed set, so run them separately (from `backend/`):
+
+```bash
+python -m ledgerline.cli predict --input ../data/invoices/dev --reference ../data/reference \
+    --output ../submission/predictions_dev.jsonl
+LEDGERLINE_FLAG_LINE_ARITHMETIC=1 LEDGERLINE_FLAG_FUTURE_DATED=1 \
+python -m ledgerline.cli predict --input ../data/invoices/disputed --reference ../data/reference \
+    --output ../submission/predictions_disputed.jsonl
+python eval/check_contract.py ../data/invoices/dev ../submission/predictions_dev.jsonl
+python eval/check_contract.py ../data/invoices/disputed ../submission/predictions_disputed.jsonl --flags-on
+```
+
+The submitted predictions are the recorded responses of the paid Haiku run read by commit `64a7d51` (no new calls;
+the later commits do not change the batch pipeline). EVAL_REPORT explains which numbers come from real calls and
+which from replaying recorded responses.
+
+### Evaluation
+
+`backend/eval/baseline_starter.py` runs the pipeline on real model calls with every response cached, every call
+logged and a hard cap on calls and spend; `backend/eval/score_predictions.py` scores predictions against the dev
+labels. Usage is at the top of each script; the recorded runs are in `submission/baseline/`. Raw responses are
+cached in `submission/baseline/llm_cache/`, which is git-ignored.
 
 ### Output contract: documents that could not be processed
 
